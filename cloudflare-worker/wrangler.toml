@@ -1,0 +1,7 @@
+name = "tvpi-proxy"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+# The AIRTABLE_PAT is stored as a secret, NOT here.
+# After deploying, run:  npx wrangler secret put AIRTABLE_PAT
+# and paste your token when prompted.

@@ -216,13 +216,12 @@ h1,h2,h3,h4{font-family:'Source Serif 4','Georgia',serif;font-weight:700;line-he
 <script>
 
 // ============================================================
-// CONFIGURATION — Replace YOUR_AIRTABLE_PAT_HERE with your
-// Airtable Personal Access Token (scoped to create+update
-// on Leads and Raw Survey Data tables)
+// CONFIGURATION — Set PROXY_URL to your Cloudflare Worker URL.
+// The Worker holds the Airtable PAT server-side.
+// Deploy instructions: see cloudflare-worker/ in the repo.
 // ============================================================
-const AIRTABLE_PAT = 'YOUR_AIRTABLE_PAT_HERE';
-const AIRTABLE_BASE = 'app9N4TEFlXFVn7PI';
-const TABLES = { leads: 'tbl7BAdaYzaMgUpk4', survey: 'tblTVtL8zv7C7gZUI' };
+const PROXY_URL = 'YOUR_PROXY_URL_HERE';  // e.g. https://tvpi-proxy.<you>.workers.dev
+const TABLES = { leads: 'tbl7BAdaYzaMgUpk4', survey: 'tblTVtL8zv7C7gZUI', attempts: 'tbljh8dLT4vbCv0Ye' };
 
 const MODULES = [
   {
@@ -1156,35 +1155,35 @@ function loadState() {
   return false;
 }
 
-// ── Airtable API ───────────────────────────────────────
+// ── Proxy API (Cloudflare Worker keeps PAT server-side) ──
 function isAirtableConfigured() {
-  return AIRTABLE_PAT && AIRTABLE_PAT !== 'YOUR_AIRTABLE_PAT_HERE';
+  return PROXY_URL && PROXY_URL !== 'YOUR_PROXY_URL_HERE';
 }
 
 async function airtableCreate(tableId, fields) {
   if (!isAirtableConfigured()) return null;
   try {
-    const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${tableId}`, {
+    const res = await fetch(PROXY_URL, {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tableId, fields })
     });
-    if (!res.ok) { console.warn('Airtable create failed:', await res.text()); return null; }
+    if (!res.ok) { console.warn('Proxy create failed:', await res.text()); return null; }
     return await res.json();
-  } catch(e) { console.warn('Airtable error:', e); return null; }
+  } catch(e) { console.warn('Proxy error:', e); return null; }
 }
 
 async function airtableUpdate(tableId, recordId, fields) {
   if (!isAirtableConfigured() || !recordId) return null;
   try {
-    const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${tableId}/${recordId}`, {
+    const res = await fetch(PROXY_URL, {
       method: 'PATCH',
-      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tableId, recordId, fields })
     });
-    if (!res.ok) { console.warn('Airtable update failed:', await res.text()); return null; }
+    if (!res.ok) { console.warn('Proxy update failed:', await res.text()); return null; }
     return await res.json();
-  } catch(e) { console.warn('Airtable error:', e); return null; }
+  } catch(e) { console.warn('Proxy error:', e); return null; }
 }
 
 function showToast(msg, duration) {
