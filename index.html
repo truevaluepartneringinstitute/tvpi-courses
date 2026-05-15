@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Lawyers: What You Need to Know Now | TVPi Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1a365d;--navy-light:#2a4a7f;--gold:#c9a84c;--gold-light:#e8d48b;
+  --bg:#fafaf8;--sidebar-bg:#f0f4f8;--text:#1a202c;--text-light:#4a5568;
+  --green:#38a169;--green-bg:#f0fff4;--red:#e53e3e;--red-bg:#fff5f5;
+  --border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,0.08);
+  --radius:8px;--sidebar-w:300px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--bg);
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Source Serif 4','Georgia',serif;font-weight:700;line-height:1.3}
+
+/* ── Layout ───────────────────────────── */
+#app{display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;
+  transition:transform .3s ease}
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;overflow-y:auto}
+
+/* ── Sidebar ──────────────────────────── */
+.sidebar-header{padding:24px 20px 16px;border-bottom:1px solid var(--border)}
+.sidebar-logo{font-family:'Source Serif 4',serif;font-size:1.1rem;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.sidebar-logo span{color:var(--gold)}
+.sidebar-course-title{font-size:.78rem;color:var(--text-light);margin-top:4px;line-height:1.4}
+.module-list{flex:1;overflow-y:auto;padding:12px 0}
+.module-item{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;
+  border-left:3px solid transparent;transition:all .15s;font-size:.88rem;color:var(--text-light)}
+.module-item:hover{background:rgba(26,54,93,.04)}
+.module-item.active{background:rgba(26,54,93,.07);border-left-color:var(--navy);color:var(--navy);font-weight:600}
+.module-item.completed .mod-check{color:var(--green)}
+.mod-num{width:28px;height:28px;border-radius:50%;background:var(--border);display:flex;
+  align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--text-light);flex-shrink:0}
+.module-item.active .mod-num{background:var(--navy);color:#fff}
+.module-item.completed .mod-num{background:var(--green);color:#fff}
+.mod-check{display:none;color:var(--green);font-size:1rem}
+.module-item.completed .mod-check{display:block}
+.mod-title{flex:1}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border)}
+.progress-bar-container{background:var(--border);border-radius:100px;height:6px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--gold);border-radius:100px;transition:width .4s ease}
+.progress-text{font-size:.75rem;color:var(--text-light);margin-top:6px;text-align:center}
+
+/* ── Hamburger ────────────────────────── */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--navy);
+  color:#fff;border:none;border-radius:var(--radius);width:40px;height:40px;cursor:pointer;
+  font-size:1.2rem;align-items:center;justify-content:center}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
+
+/* ── Main content ─────────────────────── */
+.content-wrap{max-width:780px;margin:0 auto;padding:48px 40px 80px}
+.content-wrap h1{font-size:2rem;margin-bottom:.5em;color:var(--navy)}
+.content-wrap h2{font-size:1.55rem;margin:1.8em 0 .6em;color:var(--navy)}
+.content-wrap h3{font-size:1.2rem;margin:1.4em 0 .4em;color:var(--navy-light)}
+.content-wrap p{margin:.8em 0}
+.content-wrap ul,.content-wrap ol{margin:.8em 0 .8em 1.5em}
+.content-wrap li{margin:.35em 0}
+.content-wrap blockquote{border-left:3px solid var(--gold);padding:16px 20px;margin:1.2em 0;
+  background:rgba(201,168,76,.06);border-radius:0 var(--radius) var(--radius) 0;
+  font-size:.95rem;line-height:1.7;color:var(--text)}
+.content-wrap strong{font-weight:700;color:var(--navy)}
+
+/* ── Welcome / Survey screens ─────────── */
+.screen-center{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px}
+.card{background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.08);
+  padding:48px;max-width:520px;width:100%}
+.card h1{font-size:1.75rem;color:var(--navy);margin-bottom:6px}
+.card .subtitle{color:var(--text-light);font-size:.95rem;margin-bottom:28px;line-height:1.5}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-group input[type="text"],.form-group input[type="email"],.form-group select{
+  width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:.92rem;font-family:inherit;background:#fff;transition:border-color .15s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--navy)}
+.form-group .hint{font-size:.75rem;color:var(--text-light);margin-top:4px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 28px;border:none;border-radius:var(--radius);font-family:inherit;
+  font-size:.95rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:var(--navy-light)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-block{width:100%;text-align:center}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── Survey ───────────────────────────── */
+.survey-section{background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:32px;margin:28px 0}
+.survey-section h2{font-size:1.2rem;color:var(--navy);margin-bottom:4px}
+.survey-section .subtitle{font-size:.88rem;color:var(--text-light);margin-bottom:24px}
+.survey-q{margin-bottom:22px}
+.survey-q label.q-label{display:block;font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:10px}
+.radio-group,.checkbox-group{display:flex;flex-direction:column;gap:8px}
+.radio-opt,.checkbox-opt{display:flex;align-items:center;gap:10px;padding:8px 12px;
+  border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .15s;
+  font-size:.88rem}
+.radio-opt:hover,.checkbox-opt:hover{border-color:var(--navy-light);background:rgba(26,54,93,.02)}
+.radio-opt.selected,.checkbox-opt.selected{border-color:var(--navy);background:rgba(26,54,93,.05)}
+.radio-opt input,.checkbox-opt input{accent-color:var(--navy)}
+
+/* ── Quiz ─────────────────────────────── */
+.quiz-section{margin-top:48px;padding-top:32px;border-top:2px solid var(--border)}
+.quiz-section h2{font-size:1.3rem;color:var(--navy);margin-bottom:20px}
+.quiz-card{background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:24px;margin-bottom:20px;box-shadow:var(--shadow)}
+.quiz-card .q-num{font-size:.75rem;font-weight:700;color:var(--gold);text-transform:uppercase;
+  letter-spacing:.05em;margin-bottom:8px}
+.quiz-card .q-text{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:16px;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;transition:all .15s;font-size:.9rem;line-height:1.5}
+.quiz-opt:hover:not(.disabled){border-color:var(--navy-light);background:rgba(26,54,93,.02)}
+.quiz-opt.selected:not(.answered){border-color:var(--navy);background:rgba(26,54,93,.05)}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-bg)}
+.quiz-opt.incorrect{border-color:var(--red);background:var(--red-bg)}
+.quiz-opt.disabled{cursor:default;opacity:.85}
+.quiz-opt .opt-marker{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;margin-top:1px}
+.quiz-opt.correct .opt-marker{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.quiz-opt.incorrect .opt-marker{border-color:var(--red);color:var(--red);background:var(--red-bg)}
+.opt-explain{font-size:.82rem;color:var(--text-light);margin-top:8px;line-height:1.5;
+  padding:8px 12px;background:rgba(0,0,0,.02);border-radius:var(--radius);display:none}
+.quiz-opt.answered .opt-explain{display:block}
+.btn-check{margin-top:4px}
+.module-complete-msg{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;
+  padding:20px 24px;text-align:center;margin-top:24px;font-weight:600;color:var(--green)}
+
+/* ── Final Assessment ─────────────────── */
+.assessment-header{text-align:center;margin-bottom:36px}
+.assessment-header h1{font-size:1.8rem;color:var(--navy)}
+.assessment-header .badge{display:inline-block;background:var(--navy);color:#fff;
+  padding:4px 14px;border-radius:100px;font-size:.78rem;font-weight:600;margin-top:8px}
+.score-card{text-align:center;padding:36px;background:#fff;border-radius:12px;
+  box-shadow:0 4px 24px rgba(0,0,0,.1);margin:32px 0}
+.score-big{font-size:3.5rem;font-weight:700;font-family:'Source Serif 4',serif}
+.score-big.pass{color:var(--green)}.score-big.fail{color:var(--red)}
+.score-label{font-size:1rem;color:var(--text-light);margin-top:4px}
+
+/* ── CTA ──────────────────────────────── */
+.cta-section{text-align:center;padding:48px 32px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
+  border-radius:12px;color:#fff;margin:32px 0}
+.cta-section h2{color:#fff;font-size:1.5rem;margin-bottom:12px}
+.cta-section p{color:rgba(255,255,255,.8);margin-bottom:24px;font-size:.95rem}
+.share-links{display:flex;justify-content:center;gap:12px;margin-top:20px}
+.share-links a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+  border:1px solid rgba(255,255,255,.3);border-radius:var(--radius);color:#fff;
+  text-decoration:none;font-size:.82rem;transition:all .15s}
+.share-links a:hover{background:rgba(255,255,255,.1)}
+
+/* ── Toast ─────────────────────────────── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;
+  padding:12px 20px;border-radius:var(--radius);font-size:.85rem;font-weight:500;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;
+  transition:all .3s ease;z-index:1000}
+.toast.visible{transform:translateY(0);opacity:1}
+
+/* ── Responsive ───────────────────────── */
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .hamburger{display:flex}
+  #main{margin-left:0}
+  .content-wrap{padding:60px 20px 80px}
+  .card{padding:32px 24px}
+  .screen-center{padding:20px}
+}
+@media(max-width:480px){
+  .card{padding:24px 18px}
+  .content-wrap h1{font-size:1.5rem}
+  .content-wrap h2{font-size:1.25rem}
+}
+
+</style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div id="app">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TVPi <span>Institute</span></div>
+      <div class="sidebar-course-title">AI for Lawyers: What You Need to Know Now</div>
+    </div>
+    <div class="module-list" id="moduleList"></div>
+    <div class="sidebar-footer">
+      <div class="progress-bar-container"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">0 of 5 modules complete</div>
+    </div>
+  </nav>
+  <main id="main">
+    <div id="screenWelcome" class="screen-center"></div>
+    <div id="screenSurvey" class="screen-center" style="display:none"></div>
+    <div id="screenCourse" style="display:none"><div class="content-wrap" id="courseContent"></div></div>
+    <div id="screenAssessment" style="display:none"><div class="content-wrap" id="assessmentContent"></div></div>
+    <div id="screenComplete" style="display:none"><div class="content-wrap" id="completeContent"></div></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+// ============================================================
+// CONFIGURATION — Replace YOUR_AIRTABLE_PAT_HERE with your
+// Airtable Personal Access Token (scoped to create+update
+// on Leads and Raw Survey Data tables)
+// ============================================================
+const AIRTABLE_PAT = 'YOUR_AIRTABLE_PAT_HERE';
+const AIRTABLE_BASE = 'app9N4TEFlXFVn7PI';
+const TABLES = { leads: 'tbl7BAdaYzaMgUpk4', survey: 'tblTVtL8zv7C7gZUI' };
+
+const MODULES = [
+  {
+    "number": 1,
+    "title": "What AI Actually Does (and Doesn't Do)",
+    "description": "A plain-English explanation of how large language models work, why they hallucinate, and the right mental model for lawyers to adopt \u2014 without hype or fear.",
+    "content": "# What AI Actually Does (and Doesn't Do)\n\nLet's start with what you actually need to understand \u2014 not the marketing pitch, not the doomsday scenario, but the mechanical reality of what these tools do.\n\n## How Large Language Models Work\n\nWhen you type a question into ChatGPT, Claude, or any other AI assistant, you're interacting with what's called a **large language model** (LLM). Here's what's happening under the hood, in terms a litigator can appreciate:\n\nThe model has been trained on enormous quantities of text \u2014 books, websites, articles, court filings, legal treatises, and much more. During training, the system learned statistical patterns in that text. Specifically, it learned to predict what word (or token) is most likely to come next, given all the words that came before it.\n\nThat's it. That's the core mechanism.\n\nWhen you ask an LLM to \"explain the doctrine of promissory estoppel,\" it isn't retrieving a stored definition from a database. It's generating text, one word at a time, by predicting what words are statistically likely to follow in a sequence that started with your prompt. It has seen thousands of explanations of promissory estoppel during training, so it produces something that reads like a competent explanation \u2014 because it's drawing on the statistical patterns of competent explanations.\n\nThis distinction matters enormously. **The model doesn't \"know\" anything in the way you know things.** It doesn't have beliefs, understanding, or judgment. It has patterns.\n\n## What \"Hallucination\" Really Means\n\nYou've heard the term. You may have heard about lawyers who got burned by it. But understanding *why* hallucination happens will change how you use these tools.\n\nBecause LLMs work by predicting plausible next words, they will sometimes generate text that is fluent, confident, and entirely wrong. The model isn't lying \u2014 it has no concept of truth. It's producing sequences that *pattern-match* to what a correct answer looks like.\n\nConsider this analogy: imagine a very well-read law clerk who has skimmed every case ever published but never actually practiced law and has no access to a library. Ask that clerk to write a memo, and they'll produce something that *sounds* like a memo from a good firm. The structure will be right. The reasoning will be plausible. But some of the citations might be fabricated \u2014 not because the clerk is dishonest, but because they're reconstructing from memory what a citation in that context *should look like*.\n\nThis is precisely what happened in **Mata v. Avianca, No. 22-cv-1461 (S.D.N.Y. 2023)** \u2014 a case we'll examine in detail in Module 2. The attorneys asked ChatGPT for supporting case law, and the model generated citations that looked real, with plausible case names, reporter volumes, and page numbers. None of them existed. The model wasn't trying to deceive; it was doing exactly what it was designed to do: predict plausible text.\n\nHallucination rates have improved significantly since 2023, but they have not been eliminated. As of mid-2025, even the best models still hallucinate, particularly when asked about specific citations, niche legal doctrines, or recent developments that postdate their training data.\n\n## The Training Data Concept\n\nEvery LLM has a **knowledge cutoff** \u2014 a date beyond which it has no training data. If you ask about a case decided after that date, the model either won't know about it or will confabulate an answer based on patterns from older cases.\n\nMore importantly, training data is not comprehensive or curated the way Westlaw or Lexis is. Models are trained on whatever text was available in their training corpus. That means:\n\n- **Coverage is uneven.** Major federal circuit opinions are well-represented. Unpublished state court decisions are not.\n- **Accuracy isn't guaranteed at the source.** The training data includes law review articles, blog posts, and forum discussions \u2014 some excellent, some wrong.\n- **The model can't distinguish authority.** It doesn't inherently know that a Supreme Court opinion carries more weight than a dissent in a district court case. It may generate text that treats them equivalently.\n\n## What AI Is Actually Good At\n\nNone of this means AI is useless. It means you need to deploy it where its strengths align with your needs. LLMs excel at:\n\n- **Pattern recognition and synthesis.** Give the model a set of facts and ask it to identify potential legal issues. It's remarkably good at spotting patterns across large bodies of text \u2014 often catching issues a tired associate might miss.\n- **Drafting and language tasks.** First drafts of memos, emails, demand letters, and motions. The model produces clean, well-structured prose quickly. You add the judgment.\n- **Summarization.** Condensing lengthy deposition transcripts, regulatory filings, or contract provisions into digestible summaries.\n- **Translation between registers.** Converting complex legal analysis into plain-English client communications, or translating technical jargon from expert reports into language a jury would understand.\n- **Brainstorming and ideation.** Generating lists of potential arguments, counterarguments, or analogous areas of law you might not have considered.\n\n## The Right Mental Model\n\nHere's the framework that will serve you throughout this course and beyond:\n\n**Think of AI as a very capable but unreliable research assistant.**\n\nThis assistant is fast, tireless, and has read more than any human could in a lifetime. They can produce first drafts in minutes that would take hours. They can synthesize complex material and spot patterns you might miss.\n\nBut this assistant also makes things up when they don't know the answer. They never say \"I'm not sure.\" They present everything with the same confident tone, whether it's black-letter law or pure fabrication. They have no judgment about what matters and what doesn't. And they will never, ever tell you when they're wrong.\n\nThat last point is critical. **The burden of verification always falls on you.** The model will not flag its own errors. It will not caveat its hallucinations. It will present fabricated citations with the same formatting and confidence as real ones.\n\nThis isn't a reason to avoid AI. It's a reason to use it with the same professional discipline you bring to everything else. You wouldn't file a brief written by a first-year associate without reviewing it. You wouldn't accept a client's version of events without investigating. Apply that same standard here.\n\nThe lawyers who get in trouble with AI are the ones who treat it as an oracle. The lawyers who benefit from it are the ones who treat it as a tool \u2014 powerful, useful, and requiring supervision.\n\nIn the next module, we'll examine exactly what your ethical obligations are when you use that tool."
+  },
+  {
+    "number": 2,
+    "title": "The Ethics You Can't Ignore",
+    "description": "A detailed walk-through of the ABA Model Rules, Formal Opinion 512, the Mata v. Avianca sanctions, and the evolving state bar and federal court disclosure requirements governing lawyer use of AI.",
+    "content": "# The Ethics You Can't Ignore\n\nIf Module 1 was about understanding the technology, this module is about understanding your obligations. The ethical landscape around AI in legal practice has developed rapidly since 2023, and ignorance is not a defense \u2014 in fact, as we'll see, it's the opposite.\n\n## ABA Model Rule 1.1: Competence Now Includes AI\n\nModel Rule 1.1 requires that lawyers provide competent representation, defined as \"the legal knowledge, skill, thoroughness and preparation reasonably necessary for the representation.\"\n\nComment 8 to Rule 1.1, amended in 2012, added a requirement that has taken on new significance: lawyers must \"keep abreast of changes in the law and its practice, **including the benefits and risks associated with relevant technology.**\"\n\nIn 2012, this comment was primarily aimed at e-discovery and cybersecurity. In 2025, it unambiguously encompasses AI. The duty of competence now requires you to understand \u2014 at least at a functional level \u2014 what AI tools can and cannot do. Not because you must use them, but because you must be able to make informed decisions about whether and how to use them.\n\nThis cuts both ways. A lawyer who blindly relies on AI-generated research without verification has failed the competence standard. But a lawyer who categorically refuses to learn about AI tools that could materially benefit client representation may also fall short \u2014 particularly as these tools become standard practice.\n\n**The practical takeaway:** You don't need to become a technologist. You need to understand enough to exercise professional judgment about AI \u2014 which is exactly what this course is designed to give you.\n\n## ABA Model Rule 1.6: The Confidentiality Problem\n\nRule 1.6(a) provides that a lawyer \"shall not reveal information relating to the representation of a client unless the client gives informed consent.\" Rule 1.6(c) requires lawyers to \"make reasonable efforts to prevent the inadvertent or unauthorized disclosure of, or unauthorized access to, information relating to the representation.\"\n\nHere is where it gets concrete: **when you paste client facts into an AI tool, you may be disclosing confidential information to a third party** \u2014 the AI provider.\n\nThe analysis depends on the specific tool and configuration:\n\n- **Consumer AI tools** (free ChatGPT, free Claude, Google's consumer Gemini): These services typically retain user inputs for model training and improvement. Their terms of service generally grant the provider broad rights to use your input data. Entering client information into these tools is, in most analyses, an unauthorized disclosure under Rule 1.6. Full stop.\n\n- **Enterprise/business AI tools** (ChatGPT Enterprise or Team, Claude for Business, Microsoft Copilot for enterprise): These typically offer contractual commitments that user data will not be used for training, will not be accessible to other users, and will be subject to data retention limitations. Many also offer data processing agreements (DPAs) and SOC 2 compliance.\n\n- **On-premise or private deployments**: Some firms run models locally or through private cloud instances where data never leaves the firm's control. This eliminates the third-party disclosure issue entirely.\n\n**The practical framework:** Before entering any client data into an AI tool, you need to understand (1) who has access to that data, (2) whether it's retained and for how long, (3) whether it's used for model training, and (4) whether the provider's data handling meets the \"reasonable efforts\" standard under Rule 1.6(c). If you can't answer these questions, you can't use that tool with client data.\n\n## ABA Model Rules 5.1 and 5.3: Supervision Duties\n\nRule 5.1 addresses supervisory responsibilities of partners and senior lawyers. Rule 5.3 addresses responsibilities regarding non-lawyer assistants: a lawyer with supervisory authority must \"make reasonable efforts to ensure that the person's conduct is compatible with the professional obligations of the lawyer.\"\n\nThe ABA has made clear that AI should be treated under the same supervisory framework as a non-lawyer assistant. You wouldn't let a paralegal file a brief you hadn't reviewed. The same standard applies to AI-generated work product.\n\nThis has implications for firm management as well. Partners and managing attorneys have an obligation under Rule 5.1 to establish \"reasonable measures\" to ensure that lawyers in the firm are using AI in compliance with the Rules of Professional Conduct. In practice, this means firms need AI use policies \u2014 not as a bureaucratic exercise, but as a professional obligation.\n\n## ABA Formal Opinion 512 (July 29, 2024)\n\nThis is the ABA's first formal ethics opinion directly addressing generative AI, and it deserves careful attention. The opinion addresses several key principles:\n\n**1. The duty to understand.** The opinion states explicitly that the duty of competence under Rule 1.1 requires lawyers to understand the capabilities and limitations of AI tools they use. Lawyers need not become technical experts, but they must understand enough to use these tools responsibly.\n\n**2. Mandatory supervision of output.** Lawyers must review and verify all AI-generated work product before relying on it or submitting it. The opinion specifically warns about hallucinated citations and fabricated legal authorities. AI output must be treated as a draft requiring human verification, not as a finished product.\n\n**3. Confidentiality protections.** Consistent with Rule 1.6, the opinion emphasizes that lawyers must evaluate the data privacy practices of any AI tool before using it with client information. The opinion distinguishes between consumer tools (generally unsuitable for client data) and enterprise tools with appropriate safeguards.\n\n**4. Disclosure obligations.** The opinion notes that lawyers may need to disclose their use of AI to clients, particularly when it materially affects the representation. This is rooted in Rule 1.4 (Communication) \u2014 clients are entitled to information relevant to how their matter is being handled.\n\n**5. Billing implications.** This is the provision that got the most attention. The opinion states that lawyers should not charge clients for time that AI has eliminated. If AI reduces a task from three hours to thirty minutes, billing three hours raises serious questions under Rule 1.5 (Fees). The opinion suggests that value-based or task-based billing may be more appropriate than hourly billing for AI-assisted work. Some practitioners are adapting by billing for the professional judgment applied to AI output rather than the raw time spent.\n\n## Mata v. Avianca: The Cautionary Tale\n\nNo discussion of AI ethics in law is complete without **Mata v. Avianca, Inc., No. 22-cv-1461 (S.D.N.Y. 2023)**.\n\nThe facts: Attorneys Steven Schwartz and Peter LoDuca of the firm Levidow, Levidow & Oberman submitted a legal brief in an aviation personal injury case that cited six cases as authority. None of the cases existed. They had been generated by ChatGPT. When opposing counsel and the court could not locate the cases, Schwartz submitted an affidavit \u2014 along with printouts from ChatGPT appearing to confirm the cases were real. He had asked ChatGPT whether the cases were real, and the model had assured him they were.\n\nJudge P. Kevin Castel imposed sanctions of $5,000 on each attorney. In his June 22, 2023 order, Judge Castel wrote that the attorneys \"abandoned their responsibilities when they submitted non-existent judicial opinions with fake quotes and fake internal citations\" and that they had acted in \"bad faith\" by continuing to stand behind the fabricated citations after being questioned.\n\nThe critical lesson isn't just \"verify your citations.\" It's that **the model will confidently confirm its own fabrications if you ask it.** Schwartz's mistake was not just using ChatGPT for research \u2014 it was using ChatGPT to verify ChatGPT. The verification must come from authoritative, independent sources: Westlaw, Lexis, official court records.\n\n## State Bar Guidance and Federal Court Requirements\n\nSince Mata v. Avianca, the regulatory landscape has accelerated:\n\n- **State bar guidance:** Numerous state bars have issued formal guidance or ethics opinions on AI use, including California, New York, Florida, Texas, New Jersey, and others. While the specifics vary, common threads include the duty to verify AI output, protect client confidentiality, and maintain supervision. Several states now include AI competence in their CLE requirements.\n\n- **Federal court standing orders:** As of early 2026, a significant number of federal judges across multiple districts have issued standing orders or local rules requiring attorneys to disclose when AI tools were used in preparing filings. Some require certification that all citations have been independently verified. The specifics vary by court and judge, but the trend is clear and accelerating. Before filing in any federal court, check whether the assigned judge has an AI disclosure requirement.\n\n- **State court developments:** Several state court systems have adopted or proposed similar disclosure rules, though adoption is less uniform than in federal courts.\n\n**The bottom line:** The ethical framework is not ambiguous. You must understand the tools, supervise the output, protect client data, and be transparent about your use of AI. These aren't aspirational suggestions \u2014 they're professional obligations with real consequences for non-compliance.\n\nNow that you understand both the technology and the rules, let's talk about how to put AI to work \u2014 responsibly."
+  },
+  {
+    "number": 3,
+    "title": "Five Things AI Can Do for You This Week",
+    "description": "Five practical, low-risk AI use cases for practicing attorneys \u2014 each with an explanation, a sample prompt you can adapt today, and a reminder of the verification step.",
+    "content": "# Five Things AI Can Do for You This Week\n\nTheory is useful. Practice is better. This module gives you five concrete ways to start using AI in your legal work \u2014 not next quarter, not after a firm-wide rollout, but this week. Each use case includes an explanation, a sample prompt you can steal and adapt, and the verification step you must not skip.\n\nA threshold reminder: as we discussed in Module 2, use an enterprise-grade AI tool with appropriate data protections for any work involving client information. The prompts below are tool-agnostic \u2014 they'll work in ChatGPT (Team or Enterprise), Claude (Pro or Business), or similar platforms.\n\n## 1. Legal Research Assistance\n\n**What it does well:** AI is excellent at brainstorming legal theories, identifying analogous areas of law, generating research roadmaps, and helping you think through the universe of potentially relevant authority. It can help you find the arguments you haven't considered yet.\n\n**What it does NOT replace:** Westlaw, Lexis, or any citator service. AI is your brainstorming partner for the research plan; your legal database is where you execute that plan and verify every authority.\n\n**Sample prompt:**\n\n> I'm representing a small business owner in Colorado who signed a non-compete agreement with her former employer. The non-compete restricts her from operating any competing business within a 50-mile radius for 3 years. She believes the scope is unreasonable.\n>\n> Acting as a senior associate specializing in employment law, please:\n> 1. Outline the key legal standards Colorado courts apply when evaluating the enforceability of non-compete agreements\n> 2. Identify the strongest arguments for challenging this specific non-compete as overbroad\n> 3. Suggest analogous cases or legal theories I should research, including any recent legislative changes in Colorado regarding non-competes\n> 4. Flag any procedural considerations I should be aware of\n>\n> Note: I will independently verify all legal authorities you reference. Please indicate where you are less certain about specific citations.\n\n**Why this works:** You've given the model a clear fact pattern, a specific jurisdiction, a defined role, and explicit instructions. The last line is important \u2014 it primes the model to be more careful and to flag uncertainty, even though you're going to verify everything regardless.\n\n**Verification step:** Every case name, statute, and legal standard mentioned must be independently confirmed through Westlaw, Lexis, or official sources. Pay special attention to any claim about \"recent\" legislative changes \u2014 this is where hallucination risk is highest.\n\n## 2. First-Draft Generation\n\n**What it does well:** AI can produce structurally sound first drafts of memos, client letters, demand letters, and routine motions in a fraction of the time it would take to write from scratch. The draft gives you a framework to refine \u2014 you add the judgment, the strategy, and the nuance.\n\n**Sample prompt:**\n\n> Draft an internal research memo analyzing whether our client, a commercial landlord in Texas, can pursue an unlawful detainer action against a tenant who has remained in possession after lease expiration but claims they exercised a renewal option. Key facts:\n>\n> - Original lease term: 5 years, expired March 31, 2026\n> - Lease contains a renewal option clause in Section 12.3, which requires written notice \"no later than 180 days before expiration\"\n> - Tenant sent renewal notice on November 15, 2025 (137 days before expiration)\n> - Landlord contends notice was untimely\n> - Tenant contends \"no later than 180 days\" means any time up to 180 days before, not exactly 180 days or more\n>\n> Format: standard research memo with Issue, Brief Answer, Discussion, and Conclusion sections. Texas law applies. Approximately 1,500 words.\n\n**Why this works:** You've provided the specific facts, the legal question, the jurisdiction, and the desired format. The model can produce a well-organized draft that you then verify, refine, and make your own.\n\n**Verification step:** Check every legal authority cited. Scrutinize the reasoning \u2014 does it accurately characterize the holdings of the cases it references? Does the analysis account for any relevant distinctions? Add your own strategic judgment about which arguments to emphasize.\n\n## 3. Contract Review and Issue Spotting\n\n**What it does well:** AI can quickly scan contracts and flag provisions that are non-standard, one-sided, missing, or potentially problematic. It's particularly effective for routine commercial contracts where you know what standard terms look like and need a fast way to identify deviations.\n\n**Sample prompt:**\n\n> I'm reviewing the attached SaaS subscription agreement from the vendor's perspective. My client is the subscribing company (a mid-size healthcare provider). Please:\n>\n> 1. Identify any terms that are unusually favorable to the vendor or potentially problematic for the subscriber\n> 2. Flag any provisions related to data privacy, data ownership, or data portability, and assess whether they're adequate for a healthcare client that may handle PHI\n> 3. Note any standard protective provisions that appear to be missing (e.g., SLA commitments, limitation of liability, indemnification, termination for convenience)\n> 4. Highlight any ambiguous language that could lead to disputes\n> 5. For each issue identified, suggest specific alternative language or negotiating points\n>\n> Organize your analysis by risk level: high, medium, and low.\n\n**Why this works:** You've specified the client's position (subscriber, not vendor), the industry context (healthcare/PHI), and a clear analytical framework. The risk-level organization makes the output immediately actionable for triage.\n\n**Verification step:** AI may miss jurisdiction-specific requirements (for instance, state-level data privacy laws that impose additional obligations). It may also miss context-specific issues that depend on your client's particular business operations. Use the AI output as a checklist to supplement \u2014 not replace \u2014 your own review.\n\n## 4. Document Summarization\n\n**What it does well:** This may be the single highest-ROI use case for most practicing lawyers. AI can digest lengthy documents \u2014 deposition transcripts, regulatory filings, due diligence materials, expert reports \u2014 and produce concise, organized summaries. For attorneys handling document-intensive matters, this can reclaim hours of review time.\n\n**Sample prompt:**\n\n> I'm attaching the deposition transcript of Dr. James Whitfield, the plaintiff's treating physician in a medical malpractice case. Please provide:\n>\n> 1. A one-paragraph executive summary of the key testimony\n> 2. A chronological summary of the medical treatment described, including specific dates, procedures, and outcomes mentioned\n> 3. All statements Dr. Whitfield made regarding the standard of care and whether it was met\n> 4. Any concessions or admissions that could be favorable to the defense\n> 5. Any inconsistencies or areas where the testimony was vague or evasive\n> 6. Key quotes with transcript page and line references that I should flag for potential use at trial or in briefing\n>\n> Format the output with clear headers and bullet points. Prioritize accuracy over brevity \u2014 I need specific details, not generalities.\n\n**Why this works:** You've asked for specific categories of information rather than a generic \"summarize this.\" The request for page-and-line references gives you a roadmap back to the source material.\n\n**Verification step:** Spot-check the page-and-line references against the actual transcript. AI may occasionally misattribute quotes or slightly paraphrase rather than quoting verbatim. For any quote you plan to use in briefing or at trial, go back to the original.\n\n## 5. Client Communication\n\n**What it does well:** Translating complex legal analysis into clear, accessible language for clients is a skill that takes time to develop. AI can accelerate this process dramatically \u2014 taking your legal analysis and converting it into a client-friendly communication that maintains accuracy while eliminating jargon.\n\n**Sample prompt:**\n\n> I need to send an email to my client, the CEO of a mid-size manufacturing company, explaining the results of our motion to dismiss. Here's the situation:\n>\n> - We filed a 12(b)(6) motion to dismiss the plaintiff's tortious interference and breach of fiduciary duty claims\n> - The court granted our motion on the tortious interference claim, finding the plaintiff failed to plead the existence of a valid business expectancy with sufficient specificity\n> - The court denied our motion on the breach of fiduciary duty claim, finding the plaintiff's allegations were sufficient to survive the pleading stage\n> - This means we proceed to discovery on the fiduciary duty claim only\n>\n> Draft an email that:\n> - Explains the outcome in plain English (the client is business-savvy but not a lawyer)\n> - Conveys that this is a partial win \u2014 we eliminated one of the two claims\n> - Briefly explains what discovery means and what the client should expect next\n> - Is professional but warm in tone\n> - Is approximately 300-400 words\n> - Does NOT overstate the significance of either the win or the remaining claim\n\n**Why this works:** You've given the model the substantive legal outcome, the client's profile, the tone you want, and specific guardrails (don't overstate). The result should be close to what you'd send after light editing.\n\n**Verification step:** Read the draft for accuracy \u2014 does it correctly characterize the court's ruling? Does it set appropriate expectations? Does it inadvertently make any promises or predictions about the remaining claim? Would you be comfortable if opposing counsel read this email?\n\n## The Common Thread\n\nNotice what all five use cases share: **AI does the first 60-80% of the work, and your professional judgment does the rest.** The time savings come not from eliminating your involvement, but from eliminating the blank-page problem and the tedious initial drafting.\n\nNotice also what's absent from this list: we're not using AI to make strategic decisions, predict case outcomes, or replace legal judgment. We're using it for what it's good at \u2014 language tasks, pattern recognition, and synthesis \u2014 while keeping human judgment exactly where it needs to be.\n\nIn the next module, we'll go deeper on how to write prompts that get consistently better results."
+  },
+  {
+    "number": 4,
+    "title": "Prompting That Actually Works",
+    "description": "A practical prompt engineering framework built on the legal IRAC method lawyers already know, with three ready-to-use templates and a guide to the most common prompting mistakes.",
+    "content": "# Prompting That Actually Works\n\nMost lawyers who try AI tools and come away unimpressed made the same mistake: they typed in a vague question, got a vague answer, and concluded the technology wasn't useful. The problem wasn't the tool \u2014 it was the prompt.\n\nPrompt quality is the single biggest determinant of output quality. A well-constructed prompt can be the difference between getting unusable filler and getting a draft that needs only light editing. This module gives you a repeatable framework and concrete templates.\n\n## The IRAC-P Framework\n\nYou already know IRAC \u2014 Issue, Rule, Application, Conclusion. It's the backbone of legal analysis, drilled into you since your first semester of law school. We're going to adapt it into a prompting framework that leverages the same structured-thinking habits: **IRAC-P** \u2014 Issue, Role, Action, Context, Parameters.\n\n### I \u2014 Issue\n**What specific question are you trying to answer?**\n\nThe most common prompting mistake is being too broad. \"Tell me about non-compete law\" will give you a law school outline. \"What are the strongest arguments that a 3-year, 50-mile non-compete in Colorado is unenforceable for a hair salon owner?\" will give you something useful.\n\nBe precise. Narrow the issue the same way you would in a research memo. The more specific your question, the more targeted the output.\n\n### R \u2014 Role\n**What role should the AI play?**\n\nLLMs produce meaningfully different output depending on the persona you assign. \"You are a senior litigation associate at an Am Law 100 firm\" produces different work than \"you are a legal writing instructor\" or \"you are a transactional attorney specializing in M&A.\"\n\nThe role setting calibrates the model's tone, depth, vocabulary, and analytical approach. Use it. Some effective role assignments:\n\n- \"You are a senior associate at a litigation firm with 8 years of experience in commercial disputes\"\n- \"You are a contracts attorney reviewing this agreement on behalf of the buyer\"\n- \"You are a legal writing professor providing feedback on a draft brief\"\n- \"You are an employment law specialist advising a mid-size company's HR department\"\n\n### A \u2014 Action\n**What exactly should the AI do?**\n\nUse precise verbs: **summarize, draft, compare, analyze, identify, flag, list, explain, critique, rewrite.** Each verb produces a different type of output.\n\n\"Review this contract\" is vague. \"Identify all indemnification provisions in this contract, assess whether each is mutual or one-sided, and flag any that are unusually broad in scope\" is an action the model can execute.\n\n### C \u2014 Context\n**What background does the AI need?**\n\nThis is where most lawyers under-invest. The model doesn't know your jurisdiction, your practice area, your client's situation, or the procedural posture of your case unless you tell it. Context includes:\n\n- **Jurisdiction** \u2014 state and federal matter enormously. \"California employment law\" and \"Texas employment law\" are different universes.\n- **Practice area and sub-specialty** \u2014 \"commercial real estate\" is more useful than \"real estate\"\n- **Client profile** \u2014 company size, industry, sophistication level\n- **Key facts** \u2014 the specific facts of your matter, to the extent you can share them (remembering your confidentiality obligations from Module 2)\n- **Procedural posture** \u2014 pre-litigation, discovery, summary judgment, appeal\n- **Adversary information** \u2014 what you know about the opposing position\n\n### P \u2014 Parameters\n**What constraints apply?**\n\nParameters are the guardrails that shape the output into something you can actually use:\n\n- **Format** \u2014 memo, email, bullet points, table, outline\n- **Length** \u2014 \"approximately 1,500 words\" or \"keep it under one page\"\n- **Tone** \u2014 formal, client-friendly, persuasive, neutral\n- **Inclusions** \u2014 \"include specific statutory references\" or \"address both state and federal claims\"\n- **Exclusions** \u2014 \"do not address damages\" or \"focus only on liability\"\n- **Audience** \u2014 partner, client, opposing counsel, judge\n\n## Three Templates You Can Use Today\n\n### Template 1: Research Memo\n\n> **Role:** You are a senior associate at a litigation firm specializing in [practice area].\n>\n> **Issue:** I need a research memo analyzing [specific legal question]. The key facts are: [fact summary].\n>\n> **Action:** Draft an internal research memo with the following sections: Issue Presented, Brief Answer, Discussion, and Conclusion.\n>\n> **Context:**\n> - Jurisdiction: [state/federal, specific court if relevant]\n> - Our client is the [plaintiff/defendant/party description]\n> - Procedural posture: [pre-litigation/discovery/motion practice/etc.]\n> - Key opposing argument we need to address: [if known]\n>\n> **Parameters:**\n> - Approximately [word count] words\n> - Cite specific statutes and case law where applicable (I will independently verify all citations)\n> - Address the strongest counterarguments\n> - Flag any areas where the law is unsettled or where there is a circuit split\n> - Indicate your confidence level where relevant\n\n### Template 2: Contract Review\n\n> **Role:** You are a transactional attorney reviewing this [contract type] on behalf of [client's position \u2014 buyer/seller/licensee/etc.].\n>\n> **Action:** Review the attached agreement and provide:\n> 1. An executive summary of the key commercial terms (in a table format)\n> 2. A risk assessment organized by severity (high/medium/low)\n> 3. For each identified risk: the specific provision, why it's problematic, and suggested alternative language\n> 4. A list of standard protective provisions that are missing\n> 5. Any provisions that are ambiguous and could lead to disputes\n>\n> **Context:**\n> - Client industry: [industry]\n> - Deal size/significance: [context]\n> - Client's negotiating leverage: [strong/moderate/limited]\n> - Particular areas of concern: [if any \u2014 e.g., IP ownership, data privacy, termination rights]\n> - Governing law: [jurisdiction]\n>\n> **Parameters:**\n> - Prioritize practical, actionable feedback over theoretical concerns\n> - For suggested alternative language, provide specific redline-ready text\n> - Flag any provisions that may trigger regulatory requirements given the client's industry\n\n### Template 3: Client Communication\n\n> **Role:** You are a [practice area] attorney communicating with [client description \u2014 e.g., \"the CEO of a mid-size technology company\" or \"an individual plaintiff with no legal background\"].\n>\n> **Action:** Draft a [format \u2014 email/letter/memo] that explains [specific legal matter/outcome/recommendation].\n>\n> **Context:**\n> - Here's the legal situation: [factual and legal summary]\n> - The client's primary concern is: [what they care about most]\n> - Client sophistication level: [business-savvy executive / no legal background / etc.]\n> - Relationship context: [new client / long-standing relationship / sensitive matter]\n>\n> **Parameters:**\n> - Approximately [length] words\n> - Plain English \u2014 no legal jargon unless unavoidable (and define any terms you must use)\n> - Tone: [professional and reassuring / direct and candid / urgent]\n> - Do not overstate positive outcomes or minimize risks\n> - Include a clear next-steps section\n> - Do not make predictions about outcomes unless I specify\n\n## Common Mistakes Lawyers Make When Prompting\n\n**1. Being too vague.** \"Review this contract\" gives you a generic, surface-level response. \"Review this SaaS agreement from the subscriber's perspective, focusing on data privacy provisions and liability caps, under California law\" gives you something you can work with.\n\n**2. Not specifying jurisdiction.** The law varies dramatically by jurisdiction. A prompt that doesn't include the relevant jurisdiction will get you a generic, multi-jurisdictional response that may not be accurate for any specific state. Always specify.\n\n**3. Not providing enough context.** The model doesn't know your case unless you tell it. The more relevant facts you provide (consistent with your confidentiality obligations), the more tailored and useful the output.\n\n**4. Trusting output without verification.** We've covered this extensively, but it bears repeating. Every citation, every legal standard, every factual claim in AI output must be independently verified. This is non-negotiable.\n\n**5. Using consumer AI tools with client data.** Free-tier consumer tools typically retain and may use your input for training. As we discussed in Module 2, this likely violates Rule 1.6. Use enterprise tools with appropriate data protections for anything involving client information.\n\n**6. Giving up after one prompt.** The first prompt gets you to about 60% of what you need. The real value comes from follow-up prompts that refine, deepen, and redirect.\n\n## The Iteration Technique\n\nHere's the workflow that experienced AI users follow:\n\n**Prompt 1 \u2014 The Foundation (gets you to ~60%).** Use the IRAC-P framework to set up the task. Get the initial output.\n\n**Prompt 2 \u2014 The Refinement (gets you to ~80%).** \"This is good, but [specific feedback]. Please revise to [specific instruction].\" Or: \"The analysis of [X] is too surface-level. Go deeper on the standard for [specific doctrine] and address the counterargument that [Y].\"\n\n**Prompt 3 \u2014 The Polish (gets you to ~90%).** \"Restructure the memo so that [organizational change]. Strengthen the argument in section [X] by [specific instruction]. Tighten the prose \u2014 eliminate any filler language.\"\n\n**The final 10% is your professional judgment.** That's where you add the strategic insight, the nuance that comes from knowing the judge's tendencies, the tactical awareness of what opposing counsel is likely to argue, and the client-specific context that no model can replicate.\n\nThis iterative approach mirrors how you already work with associates. You assign the task, review the first draft, give feedback, review the revision, and then add your own polish. The only difference is speed \u2014 the cycle that takes days with a human associate takes minutes with AI.\n\nIn the final module, we'll pull everything together into an action plan you can implement immediately."
+  },
+  {
+    "number": 5,
+    "title": "Your AI Action Plan",
+    "description": "A practical implementation roadmap covering where to start, how to build verification workflows, how to frame AI adoption internally, and a 5-question personal AI policy for any matter.",
+    "content": "# Your AI Action Plan\n\nYou now understand how the technology works, what your ethical obligations are, what AI can do for you in practice, and how to prompt effectively. This final module is about turning knowledge into action \u2014 giving you a clear, low-risk path to start using AI in your practice this week.\n\n## Start with the Low-Risk Quadrant\n\nNot all legal tasks carry the same risk profile. The smart move is to start where three conditions converge:\n\n1. **Errors are easily caught.** You'll review the output before it goes anywhere.\n2. **Consequences of mistakes are low.** An error in an internal brainstorming document is not the same as an error in a filing.\n3. **The productivity gain is high.** Tasks that currently consume significant time but involve routine work.\n\nHere's your starting lineup:\n\n- **Internal memo drafts.** First drafts of research memos that you'll review, edit, and finalize. No one sees these but you and your team. Errors are caught in your normal review process. Time savings: often 40-60% of initial drafting time.\n\n- **Research brainstorming.** Using AI to generate research roadmaps, identify potential arguments, or explore analogous areas of law. You're not relying on the AI's citations \u2014 you're using its ability to think broadly before you dive into Westlaw or Lexis. Time savings: helps ensure you're not missing angles, and cuts planning time.\n\n- **Document summarization.** Condensing deposition transcripts, lengthy contracts, or regulatory filings into structured summaries. You'll spot-check against the originals. Time savings: potentially hours per document on document-intensive matters.\n\n- **Client email drafts.** Translating your legal analysis into client-friendly language. You'll review for accuracy and tone before sending. Time savings: 15-30 minutes per communication, and often better clarity than what you'd draft under time pressure.\n\n- **Internal knowledge management.** Synthesizing firm precedent, creating checklists for recurring matter types, or summarizing changes in relevant law. Time savings: turns a project that never gets done into one that takes an afternoon.\n\nWhat should you **not** start with? Anything filed with a court. Anything sent to opposing counsel without thorough review. Anything involving novel legal questions where getting it wrong has serious consequences. You'll get there eventually, but not on day one.\n\n## The Verification Workflow\n\nEvery piece of AI-generated work product should pass through this five-step process before you rely on it:\n\n**Step 1: AI generates.** You provide a well-structured prompt (Module 4). The model produces a draft.\n\n**Step 2: Lawyer reviews for substance.** Read the output critically. Does the analysis make sense? Is the reasoning sound? Does it address the right issues? Are there gaps or mischaracterizations? At this stage, you're evaluating the work the same way you'd evaluate a draft from a junior associate.\n\n**Step 3: Lawyer verifies citations.** This is non-negotiable. Every case citation, every statute reference, every regulatory citation must be independently verified through Westlaw, Lexis, or official sources. Check not just that the case exists, but that it says what the AI claims it says. Check that it hasn't been overruled or distinguished. Run it through a citator.\n\n**Step 4: Lawyer applies judgment.** This is where you earn your fee. The AI doesn't know your client's business objectives. It doesn't know the judge's tendencies. It doesn't know what opposing counsel argued at the last hearing. It doesn't understand the politics of a deal or the dynamics of a negotiation. You add the strategic layer that transforms a competent draft into effective legal work.\n\n**Step 5: Lawyer takes responsibility.** When you sign that brief, send that email, or present that analysis, it's your work product. The fact that AI assisted in drafting is irrelevant to your professional responsibility. You own it completely \u2014 the good parts and any errors.\n\nPost this workflow where you can see it. Share it with your team. Make it habitual.\n\n## What to Tell Your Partners\n\nIf you're an associate or mid-level attorney considering raising AI adoption with firm leadership, frame it correctly:\n\n**Frame it as competence, not convenience.** ABA Model Rule 1.1, Comment 8, requires lawyers to stay current with relevant technology. ABA Formal Opinion 512 makes clear that AI falls within this obligation. Adopting AI thoughtfully isn't about cutting corners \u2014 it's about meeting your professional duty to understand the tools that are reshaping legal practice.\n\n**Frame it as risk management, not experimentation.** Lawyers at your firm are already using AI \u2014 the question is whether they're using it with appropriate safeguards. A firm AI policy isn't overhead; it's the same kind of risk management that drives your conflicts checks and your document retention policies.\n\n**Frame it with the economics.** A senior associate who uses AI to produce first drafts 40% faster can handle a higher volume of substantive work, spend more time on high-value strategic thinking, and deliver faster turnaround to clients. These aren't theoretical benefits \u2014 they're competitive advantages that clients are beginning to expect.\n\n**Address the billing question directly.** Yes, Formal Opinion 512 indicates lawyers should not charge clients for time AI has eliminated. But the math still works: if AI cuts drafting time on a memo from four hours to one, you've freed up three hours for other billable work or for higher-value activities on the same matter. The net effect on firm revenue depends on how you redeploy the time saved.\n\n## What to Tell Your Clients\n\n**Transparency builds trust.** Some firms have tried to keep AI use quiet. This is a mistake \u2014 both ethically and strategically. Clients are sophisticated. Many are already using AI in their own businesses and will respect a law firm that approaches the technology thoughtfully rather than pretending it doesn't exist.\n\n**Some clients are already asking.** Corporate legal departments, in particular, are inquiring about their outside counsel's AI capabilities. In some cases, demonstrating thoughtful AI adoption is becoming a differentiator in pitches and RFPs. Clients want to know: Are you using modern tools? Do you have safeguards in place? Are you passing efficiency gains on to us?\n\n**What to communicate:**\n- That your firm has evaluated AI tools and adopted enterprise-grade solutions with appropriate data protections\n- That AI assists with certain tasks (drafting, research, summarization) but all work product receives thorough attorney review\n- That the use of AI does not diminish the quality of professional judgment applied to their matters\n- That you have policies in place to protect their confidential information when using AI tools\n\nConsider adding AI disclosure language to your engagement letters. This is increasingly becoming standard practice, and it's far better to address it proactively than to have a client learn about your AI use after the fact.\n\n## Your Personal AI Policy: Five Questions\n\nBefore you use AI on any client matter, run through these five questions. If you can't answer \"yes\" to all five, stop and address the gap.\n\n**1. Does the engagement letter address AI use?**\nIf your engagement letter is silent on AI, consider whether the client's reasonable expectations would encompass AI-assisted work. For new matters, add appropriate disclosure language. For existing matters, consider a supplemental disclosure if AI use is material.\n\n**2. Is the tool's data handling policy acceptable for this client's data?**\nReview the AI provider's terms of service, data processing agreement, and privacy policy. Confirm that client data won't be used for training, won't be accessible to other users, and will be subject to appropriate retention and deletion policies. If the client operates in a regulated industry (healthcare, financial services, government contracting), apply additional scrutiny.\n\n**3. Am I using an enterprise tool, not a consumer tool?**\nConsumer-tier AI products (free ChatGPT, free Claude, etc.) generally do not provide the data protections required under Rule 1.6. Use enterprise or business-tier products that offer contractual data protection commitments. Better yet, use AI tools specifically designed for legal practice that include additional safeguards.\n\n**4. Do I have a verification plan for the output?**\nBefore you prompt, know how you'll verify the result. For research output, you'll run every citation through Westlaw or Lexis. For contract review, you'll cross-check against the original document. For client communications, you'll review for accuracy and appropriate tone. The verification plan should be proportionate to the stakes.\n\n**5. Am I prepared to take full responsibility for the work product?**\nIf something goes wrong \u2014 a citation is fabricated, an analysis is flawed, a provision is missed \u2014 you own it. \"The AI got it wrong\" is not a defense. If you wouldn't sign a filing or send a letter based on the AI's output without your own review and judgment, don't use AI for that task yet.\n\n## Where to Go Deeper\n\nThis minicourse gives you the foundation. If you want structured, accredited training that goes further \u2014 including hands-on workshops, practice-area-specific modules, and CLE credit \u2014 the TVPi Institute offers a full course catalog and the ALPP (AI Literate Legal Professional) accreditation program designed specifically for practicing attorneys. It's worth exploring if you're serious about building this competency systematically.\n\n## The Bottom Line\n\nAI in legal practice is not a future consideration. It's a present reality. The ethical rules are clear. The tools are available. The competitive dynamics are shifting. The question isn't whether AI will affect your practice \u2014 it's whether you'll be in the driver's seat when it does.\n\nThe lawyers who will thrive aren't the ones who use AI first \u2014 they're the ones who learn to use it well.\n\nStart this week. Start small. Start with the low-risk quadrant. Build the verification habit from day one. And apply the same professional discipline to AI that you bring to everything else in your practice.\n\nThat's how you do this right."
+  }
+];
+
+const MODULE_QUIZZES = [
+  {
+    "module_number": 1,
+    "module_id": "recNHEQqCE8WjlIKE",
+    "module_title": "What AI Actually Does (and Doesn't Do)",
+    "questions": [
+      {
+        "question_text": "A partner asks you to explain how ChatGPT \"knows\" the law. Which description most accurately captures how large language models generate legal text?",
+        "type": "Scenario",
+        "difficulty": "Recall",
+        "explanation": "LLMs work by statistical prediction -- they calculate the most probable next word based on patterns in their training data. They do not retrieve information from a database or understand legal concepts the way a lawyer does. This distinction is critical because it explains why AI can produce confident-sounding text that is factually wrong.",
+        "legal_citation": "",
+        "sort_order": 1,
+        "options": [
+          {
+            "text": "They search a legal database and retrieve relevant passages, similar to Westlaw or LexisNexis.",
+            "is_correct": false,
+            "explanation": "LLMs do not search or retrieve from databases. They generate text word-by-word based on statistical patterns. Confusing AI with legal research platforms leads to dangerous over-reliance.",
+            "sort_order": 1
+          },
+          {
+            "text": "They predict the most statistically likely next word based on patterns learned from training data, without actually understanding legal concepts.",
+            "is_correct": true,
+            "explanation": "Correct. LLMs are statistical prediction engines. They learned patterns from massive text datasets and generate plausible-sounding text, but they have no understanding of law, truth, or logic.",
+            "sort_order": 2
+          },
+          {
+            "text": "They apply a set of programmed legal rules to analyze questions and generate answers based on formal logic.",
+            "is_correct": false,
+            "explanation": "LLMs are not rule-based systems. They do not apply formal logic or follow programmed legal rules. This misconception can lead lawyers to trust AI outputs as though they were logically derived.",
+            "sort_order": 3
+          },
+          {
+            "text": "They memorize and recall specific legal texts verbatim from their training data when prompted.",
+            "is_correct": false,
+            "explanation": "While LLMs may occasionally reproduce memorized fragments, they primarily generate new text through statistical prediction. They do not reliably recall specific texts, which is precisely why citations can be fabricated.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "You use an AI tool to draft a research memo and it returns a case citation you've never seen before. The citation looks properly formatted with a real-sounding party name and reporter volume. What is the most likely explanation?",
+        "type": "Scenario",
+        "difficulty": "Application",
+        "explanation": "AI hallucination occurs because LLMs generate text that is statistically plausible rather than factually verified. The model has learned what case citations look like and can produce perfectly formatted but entirely fabricated citations. This is not a bug or a rare glitch -- it is a fundamental feature of how the technology works.",
+        "legal_citation": "",
+        "sort_order": 2,
+        "options": [
+          {
+            "text": "The AI found an obscure but real case that your initial search missed.",
+            "is_correct": false,
+            "explanation": "While this is possible in rare cases, assuming unfamiliar AI-generated citations are real is exactly the mistake that led to sanctions in Mata v. Avianca. Every citation must be independently verified.",
+            "sort_order": 1
+          },
+          {
+            "text": "The AI statistically generated a plausible-looking citation that may be entirely fabricated -- a hallucination.",
+            "is_correct": true,
+            "explanation": "Correct. LLMs predict what a citation should look like based on patterns, not by looking up real cases. This is hallucination: confident, well-formatted output that is factually wrong. Every AI-generated citation must be verified in an authoritative legal database.",
+            "sort_order": 2
+          },
+          {
+            "text": "The AI's training data is outdated, so it is citing a case that has since been overruled.",
+            "is_correct": false,
+            "explanation": "Training data cutoffs are a real limitation, but the more fundamental risk here is that the citation may not correspond to any real case at all. Outdated data and fabricated data are different problems, and hallucination is the more common one.",
+            "sort_order": 3
+          },
+          {
+            "text": "The AI made a minor formatting error but the underlying case is almost certainly real.",
+            "is_correct": false,
+            "explanation": "This dangerously underestimates the hallucination problem. AI-generated citations frequently refer to cases that do not exist at all, not just formatting variations of real cases. Assuming the case is 'almost certainly real' is how lawyers end up sanctioned.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "Which mental model best describes how lawyers should think about AI tools in their current state?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "The 'capable but unreliable research assistant' mental model accurately captures AI's dual nature: it can perform impressive tasks like drafting, summarizing, and pattern recognition, but it cannot be trusted to be accurate without human verification. This framing helps lawyers use AI productively while maintaining appropriate skepticism.",
+        "legal_citation": "",
+        "sort_order": 3,
+        "options": [
+          {
+            "text": "A junior associate who needs supervision but generally gets the law right.",
+            "is_correct": false,
+            "explanation": "This overstates AI's reliability. A junior associate has legal training and understands what it means to be accurate. AI has no concept of accuracy and will confidently produce wrong answers. The supervision required is more intensive than what you'd give a junior associate.",
+            "sort_order": 1
+          },
+          {
+            "text": "A capable but unreliable research assistant -- impressive at pattern recognition, synthesis, and drafting, but requiring verification of every factual claim.",
+            "is_correct": true,
+            "explanation": "Correct. This mental model captures both the genuine utility (drafting, summarizing, brainstorming, pattern recognition) and the fundamental limitation (unreliable on facts and citations). It sets the right expectations for productive use.",
+            "sort_order": 2
+          },
+          {
+            "text": "A sophisticated search engine that returns relevant results ranked by accuracy.",
+            "is_correct": false,
+            "explanation": "AI does not search and rank existing information. It generates new text. Treating AI like a search engine leads to the false assumption that its outputs are drawn from verified sources.",
+            "sort_order": 3
+          },
+          {
+            "text": "An unreliable tool that produces too many errors to be useful in legal practice.",
+            "is_correct": false,
+            "explanation": "This understates AI's genuine capabilities. AI excels at synthesis, first drafts, summarization, and brainstorming. Dismissing it entirely means missing real productivity gains. The key is knowing where it helps and where it fails.",
+            "sort_order": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module_number": 2,
+    "module_id": "recG9FUYiL7wvBU1N",
+    "module_title": "The Ethics You Can't Ignore",
+    "questions": [
+      {
+        "question_text": "Under ABA Model Rule 1.1 and its Comment 8, what specific obligation do lawyers have regarding AI technology?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "Comment 8 to Model Rule 1.1 requires lawyers to stay current with changes in technology, including the benefits and risks associated with relevant technology. This duty of technological competence means lawyers must understand AI tools sufficiently to use them competently, not just avoid them or use them blindly.",
+        "legal_citation": "ABA Model Rule 1.1, Comment 8",
+        "sort_order": 1,
+        "options": [
+          {
+            "text": "Lawyers must obtain certification in AI tools before using them in practice.",
+            "is_correct": false,
+            "explanation": "No certification requirement exists under the Model Rules. The duty is to stay informed about technology's benefits and risks -- understanding, not credentialing.",
+            "sort_order": 1
+          },
+          {
+            "text": "Lawyers must stay informed about the benefits and risks of relevant technology, including AI, as part of their duty of competence.",
+            "is_correct": true,
+            "explanation": "Correct. Comment 8 to Rule 1.1 requires keeping abreast of 'the benefits and risks associated with relevant technology.' This means understanding what AI can and cannot do, not avoiding it or using it without comprehension.",
+            "sort_order": 2
+          },
+          {
+            "text": "Lawyers must disclose to clients whenever AI tools were used in their matter.",
+            "is_correct": false,
+            "explanation": "While ABA Opinion 512 discusses disclosure considerations, Rule 1.1 and Comment 8 specifically address technological competence, not disclosure. Disclosure obligations arise from other rules and ethics opinions.",
+            "sort_order": 3
+          },
+          {
+            "text": "Lawyers must avoid using AI tools until bar associations issue formal guidance on their use.",
+            "is_correct": false,
+            "explanation": "The duty of competence does not require waiting for formal guidance. In fact, ignoring technological developments could itself be a competence issue. The obligation is to understand the technology, not to avoid it.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "A solo practitioner wants to use ChatGPT to help draft a motion. She is considering copying the client's case file details into the free consumer version. What is the primary ethical concern?",
+        "type": "Scenario",
+        "difficulty": "Application",
+        "explanation": "Under Rule 1.6, lawyers must protect client confidentiality. Consumer AI tools typically use input data for model training, meaning client information could be incorporated into the model and potentially surfaced to other users. Enterprise versions typically offer data protection agreements that prevent this. The distinction between consumer and enterprise AI tools is a critical confidentiality consideration.",
+        "legal_citation": "ABA Model Rule 1.6; ABA Formal Opinion 512",
+        "sort_order": 2,
+        "options": [
+          {
+            "text": "The AI might generate inaccurate legal arguments that could harm the client's case.",
+            "is_correct": false,
+            "explanation": "While accuracy is a concern, it is a competence issue under Rule 1.1, not the primary ethical concern with using consumer AI tools with client data. The threshold issue here is confidentiality.",
+            "sort_order": 1
+          },
+          {
+            "text": "Client data entered into consumer AI tools may be used for model training, creating a confidentiality violation under Rule 1.6.",
+            "is_correct": true,
+            "explanation": "Correct. Consumer AI tools often use input data to train and improve their models, meaning confidential client information could be exposed. ABA Opinion 512 specifically addresses the duty to protect client data when using AI tools. Enterprise tools with appropriate data agreements mitigate this risk.",
+            "sort_order": 2
+          },
+          {
+            "text": "Using AI to draft motions constitutes unauthorized practice of law by the AI tool.",
+            "is_correct": false,
+            "explanation": "AI tools are not 'practicing law' -- they are tools used by lawyers. The ethical obligations fall on the lawyer using the tool, not the tool itself. This is similar to how using Westlaw does not constitute UPL by the database.",
+            "sort_order": 3
+          },
+          {
+            "text": "The opposing party could discover that AI was used and move to disqualify counsel.",
+            "is_correct": false,
+            "explanation": "There is no general rule allowing disqualification for AI use. The real risk is the confidentiality breach from exposing client data through a consumer tool's data training pipeline.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "In Mata v. Avianca, what happened when attorneys submitted AI-generated case citations without verifying them?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "In Mata v. Avianca (S.D.N.Y. 2023), attorneys submitted a brief containing multiple case citations generated by ChatGPT. The citations were entirely fabricated -- the cases did not exist. Judge Castel imposed $5,000 sanctions. The case became a landmark cautionary tale about the duty to verify AI-generated legal content.",
+        "legal_citation": "Mata v. Avianca, Inc., No. 22-cv-1461 (S.D.N.Y. 2023)",
+        "sort_order": 3,
+        "options": [
+          {
+            "text": "The court found the citations were real but outdated, and issued a warning without sanctions.",
+            "is_correct": false,
+            "explanation": "The citations were not outdated -- they were entirely fabricated. The cases did not exist at all. And the court did impose monetary sanctions, not merely a warning.",
+            "sort_order": 1
+          },
+          {
+            "text": "The attorneys were disbarred for submitting AI-generated work product.",
+            "is_correct": false,
+            "explanation": "The attorneys were not disbarred. The issue was not using AI itself, but failing to verify the AI's output. The court imposed $5,000 in sanctions. Using AI is not sanctionable; submitting unverified fabricated citations is.",
+            "sort_order": 2
+          },
+          {
+            "text": "The court discovered the citations were entirely fabricated and imposed $5,000 in sanctions on the attorneys.",
+            "is_correct": true,
+            "explanation": "Correct. Multiple citations in the brief referred to cases that did not exist. Judge Castel sanctioned the attorneys $5,000. The case underscores that lawyers bear full responsibility for verifying every AI-generated citation and legal claim.",
+            "sort_order": 3
+          },
+          {
+            "text": "The opposing party identified one incorrect citation, but the court found no ethical violation because AI use was not yet regulated.",
+            "is_correct": false,
+            "explanation": "The court found clear ethical violations. Existing duties of candor to the tribunal and competence apply to AI-assisted work regardless of whether AI-specific regulations exist. Multiple citations -- not just one -- were fabricated.",
+            "sort_order": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module_number": 3,
+    "module_id": "recr3CzZpRgzaa3I2",
+    "module_title": "Five Things AI Can Do for You This Week",
+    "questions": [
+      {
+        "question_text": "You have a 45-page commercial lease agreement to review before a client meeting tomorrow morning. Which approach best reflects the recommended use of AI for contract review?",
+        "type": "Scenario",
+        "difficulty": "Application",
+        "explanation": "AI is best used for contract review as a first-pass tool that does 60-80% of the work, with your professional judgment completing the remaining 20-40%. It can quickly flag non-standard terms, missing provisions, and potential issues, but the lawyer must verify findings and apply judgment about which issues matter for this specific client and deal.",
+        "legal_citation": "",
+        "sort_order": 1,
+        "options": [
+          {
+            "text": "Have AI review the full agreement and send its summary directly to the client to save time.",
+            "is_correct": false,
+            "explanation": "Sending unreviewed AI output directly to a client violates the fundamental principle that AI does 60-80% and your judgment does the rest. AI summaries may miss critical issues or flag irrelevant ones. Lawyer review is mandatory before any client communication.",
+            "sort_order": 1
+          },
+          {
+            "text": "Use AI to flag non-standard terms and potential issues as a first pass, then review the flagged items and apply your own judgment about what matters for this client.",
+            "is_correct": true,
+            "explanation": "Correct. This reflects the recommended workflow: AI handles the initial heavy lifting of identifying potentially significant provisions, and the lawyer applies contextual judgment about what actually matters for the specific client and transaction. This is the 60-80% / 20-40% split in action.",
+            "sort_order": 2
+          },
+          {
+            "text": "Skip the AI and read every page manually because AI cannot reliably analyze legal contracts.",
+            "is_correct": false,
+            "explanation": "AI is genuinely capable of useful first-pass contract analysis. Dismissing it entirely means missing a legitimate productivity tool. The key is using it as a starting point, not as the final word.",
+            "sort_order": 3
+          },
+          {
+            "text": "Use AI to generate a complete redline markup of the agreement and present it as your work product.",
+            "is_correct": false,
+            "explanation": "Presenting AI-generated redlines as your own work product without review is dangerous. AI may miss context-specific issues or flag provisions that are standard for this type of deal. Your judgment must shape the final analysis.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "Which of the following is one of the five recommended AI use cases that lawyers can implement immediately?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "The five recommended immediate use cases are: legal research assistance, first-draft generation, contract review, document summarization, and client communication drafting. Each comes with specific sample prompts and verification steps to ensure responsible use.",
+        "legal_citation": "",
+        "sort_order": 2,
+        "options": [
+          {
+            "text": "Automated court filing submission without attorney review.",
+            "is_correct": false,
+            "explanation": "Automated filing without review is not a recommended use case. All AI outputs require lawyer verification before submission to any court or third party.",
+            "sort_order": 1
+          },
+          {
+            "text": "Document summarization -- using AI to distill lengthy documents into key points for faster review.",
+            "is_correct": true,
+            "explanation": "Correct. Document summarization is one of the five immediate use cases. AI can quickly extract key provisions, timelines, and obligations from lengthy documents, giving you a head start on review while you verify the summary against the source material.",
+            "sort_order": 2
+          },
+          {
+            "text": "AI-powered client intake that replaces initial consultations.",
+            "is_correct": false,
+            "explanation": "Replacing client consultations with AI is not recommended. Client communication drafting is a valid use case, but it involves drafting emails and updates for lawyer review, not replacing direct attorney-client interaction.",
+            "sort_order": 3
+          },
+          {
+            "text": "Predicting case outcomes to set client expectations.",
+            "is_correct": false,
+            "explanation": "Case outcome prediction is not one of the five recommended use cases. Current AI tools are not reliable enough for outcome prediction, and presenting such predictions to clients could create competence and communication issues.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "An attorney uses AI to draft a client email explaining the next steps in their litigation. The AI produces a clear, well-organized draft. What should the attorney do before sending it?",
+        "type": "Scenario",
+        "difficulty": "Application",
+        "explanation": "Even when AI produces a polished-looking draft, the attorney must review it for accuracy, tone, and client-specific context. AI doesn't know your client's emotional state, their prior communications, or the nuances of your strategy. The 60-80% / 20-40% principle means the attorney's judgment is essential for the final product.",
+        "legal_citation": "",
+        "sort_order": 3,
+        "options": [
+          {
+            "text": "Send it immediately -- if the draft is clear and well-organized, it is ready for the client.",
+            "is_correct": false,
+            "explanation": "No AI draft should be sent without attorney review, regardless of how polished it looks. AI does not know your client's specific situation, concerns, or communication preferences.",
+            "sort_order": 1
+          },
+          {
+            "text": "Review the draft for factual accuracy, appropriate tone, and client-specific context, then revise as needed before sending.",
+            "is_correct": true,
+            "explanation": "Correct. The attorney must verify facts, adjust tone for the specific client relationship, add or modify context based on their professional judgment, and ensure the communication accurately reflects the legal strategy. This is the critical 20-40% that only the lawyer can provide.",
+            "sort_order": 2
+          },
+          {
+            "text": "Have the AI regenerate the draft three more times and pick the best version to send.",
+            "is_correct": false,
+            "explanation": "Generating multiple versions without applying your own judgment doesn't solve the fundamental issue. The problem isn't finding the best AI draft -- it's applying your knowledge of the client and matter to shape the communication.",
+            "sort_order": 3
+          },
+          {
+            "text": "Add a disclaimer at the bottom noting that the email was drafted with AI assistance.",
+            "is_correct": false,
+            "explanation": "A disclaimer does not substitute for reviewing and editing the content. While disclosure may be appropriate in some contexts, the first obligation is ensuring the communication is accurate and appropriate for this client.",
+            "sort_order": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module_number": 4,
+    "module_id": "recgCO1TW5Y4ElRdf",
+    "module_title": "Prompting That Actually Works",
+    "questions": [
+      {
+        "question_text": "What does the IRAC-P prompting framework stand for?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "IRAC-P adapts the familiar legal analysis framework for AI prompting: Issue (what you need), Role (who the AI should be), Action (what it should do), Context (background information), and Parameters (format, length, jurisdiction, and other constraints). This structure helps lawyers write prompts that produce more useful and targeted outputs.",
+        "legal_citation": "",
+        "sort_order": 1,
+        "options": [
+          {
+            "text": "Issue, Research, Analysis, Conclusion, Presentation",
+            "is_correct": false,
+            "explanation": "This confuses the IRAC-P prompting framework with the traditional legal IRAC writing structure. While IRAC-P is inspired by legal analysis, it is specifically designed for communicating with AI tools.",
+            "sort_order": 1
+          },
+          {
+            "text": "Issue, Role, Action, Context, Parameters",
+            "is_correct": true,
+            "explanation": "Correct. Each element serves a specific purpose: Issue defines the problem, Role sets the AI's perspective, Action specifies the task, Context provides background, and Parameters set constraints like jurisdiction, format, and length.",
+            "sort_order": 2
+          },
+          {
+            "text": "Instruction, Requirements, Application, Constraints, Priorities",
+            "is_correct": false,
+            "explanation": "While these sound like reasonable prompting elements, they are not the IRAC-P framework. IRAC-P specifically uses Issue, Role, Action, Context, and Parameters.",
+            "sort_order": 3
+          },
+          {
+            "text": "Identify, Request, Assess, Correct, Produce",
+            "is_correct": false,
+            "explanation": "This describes a workflow rather than a prompting framework. IRAC-P is about structuring your prompt to the AI, not describing steps you take with the output.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "You prompt an AI tool with: \"Tell me about employment law.\" The output is vague and unhelpful. Which common prompting mistake does this illustrate, and how should you fix it?",
+        "type": "Scenario",
+        "difficulty": "Application",
+        "explanation": "Being too vague is one of the six common prompting mistakes. Without specifying a jurisdiction, a particular issue, the desired format, or the context of your question, the AI has no way to generate useful output. Applying the IRAC-P framework would transform this into a targeted, actionable prompt.",
+        "legal_citation": "",
+        "sort_order": 2,
+        "options": [
+          {
+            "text": "The prompt is too vague -- it lacks jurisdiction, a specific issue, context, and parameters. Adding these elements using IRAC-P would produce a far more useful response.",
+            "is_correct": true,
+            "explanation": "Correct. Vague prompts produce vague outputs. A better prompt might be: 'You are an employment law attorney in California. Analyze whether a mandatory return-to-office policy could trigger constructive discharge claims under current California law. Format as a 500-word memo with key cases cited.'",
+            "sort_order": 1
+          },
+          {
+            "text": "The prompt needs to be longer -- AI works best with prompts of at least 500 words.",
+            "is_correct": false,
+            "explanation": "Length alone does not make a better prompt. A short, well-structured IRAC-P prompt will outperform a long, rambling one. The issue is specificity and structure, not word count.",
+            "sort_order": 2
+          },
+          {
+            "text": "The AI tool is not designed for legal questions and a different tool should be used.",
+            "is_correct": false,
+            "explanation": "General-purpose AI tools can handle legal questions effectively when prompted well. The problem here is the prompt, not the tool. Better prompting technique would dramatically improve the output.",
+            "sort_order": 3
+          },
+          {
+            "text": "You should give up after one attempt and do the research manually instead.",
+            "is_correct": false,
+            "explanation": "Giving up after one prompt is actually one of the six common prompting mistakes. The iteration technique teaches that it typically takes three prompts: foundation (60%), refinement (80%), and polish (90%). A bad first result is a signal to improve your prompt, not abandon the tool.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "The iteration technique suggests that effective AI-assisted work typically requires three prompts to reach quality output. What does each stage accomplish?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "The three-prompt iteration technique is a structured approach to getting the most from AI: the first prompt establishes the foundation (about 60% quality), the second refines and improves (about 80%), and the third polishes to near-final quality (about 90%). The remaining 10% requires your professional judgment and expertise.",
+        "legal_citation": "",
+        "sort_order": 3,
+        "options": [
+          {
+            "text": "First prompt builds the foundation (60%), second prompt refines the output (80%), third prompt polishes to near-final quality (90%) -- with your judgment completing the last 10%.",
+            "is_correct": true,
+            "explanation": "Correct. This staged approach manages expectations and maximizes quality. Each prompt builds on the previous output, progressively improving specificity, accuracy, and polish. The lawyer's professional judgment is essential for the final 10%.",
+            "sort_order": 1
+          },
+          {
+            "text": "First prompt generates three options, second prompt selects the best, third prompt formats it for filing.",
+            "is_correct": false,
+            "explanation": "The iteration technique is not about generating and selecting options. It is about progressively refining a single output through targeted follow-up prompts that address specific weaknesses in each version.",
+            "sort_order": 2
+          },
+          {
+            "text": "First prompt does research, second prompt drafts the document, third prompt checks for errors.",
+            "is_correct": false,
+            "explanation": "While this sounds like a reasonable workflow, it describes three separate tasks rather than the iterative refinement technique. The three prompts should progressively improve the same piece of output.",
+            "sort_order": 3
+          },
+          {
+            "text": "Each prompt uses a different AI tool to leverage the strengths of multiple platforms.",
+            "is_correct": false,
+            "explanation": "The iteration technique is about successive refinement within the same conversation, not switching between tools. Using the same tool allows each prompt to build on the context of previous exchanges.",
+            "sort_order": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module_number": 5,
+    "module_id": "recWLH114HBxOZFiQ",
+    "module_title": "Your AI Action Plan",
+    "questions": [
+      {
+        "question_text": "Which of the following tasks falls within the recommended low-risk quadrant for beginning to use AI in legal practice?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "The low-risk quadrant includes internal memos, research brainstorming, summarization, and client email drafts. These tasks are lower-risk because they involve internal work product or go through attorney review before reaching clients or courts. They are ideal starting points for lawyers building AI competence.",
+        "legal_citation": "",
+        "sort_order": 1,
+        "options": [
+          {
+            "text": "Drafting an appellate brief for direct filing with the court.",
+            "is_correct": false,
+            "explanation": "Court filings are not in the low-risk quadrant. Any document submitted to a court carries significant risk if it contains AI-generated errors, as Mata v. Avianca demonstrated. Start with internal documents where errors can be caught before external exposure.",
+            "sort_order": 1
+          },
+          {
+            "text": "Using AI for internal research brainstorming and memo drafting that will be reviewed before any external use.",
+            "is_correct": true,
+            "explanation": "Correct. Internal memos and research brainstorming are ideal low-risk starting points. Errors remain internal, the lawyer reviews everything before it goes further, and these tasks let you build familiarity with AI capabilities and limitations in a safe environment.",
+            "sort_order": 2
+          },
+          {
+            "text": "Having AI conduct client intake interviews independently.",
+            "is_correct": false,
+            "explanation": "Independent client interaction by AI is high-risk, not low-risk. It involves confidentiality concerns, potential unauthorized practice issues, and removes attorney judgment from a critical stage of the client relationship.",
+            "sort_order": 3
+          },
+          {
+            "text": "Using AI to automatically generate and send billing invoices to clients.",
+            "is_correct": false,
+            "explanation": "Automated billing without review raises ethical concerns about billing accuracy and is not in the low-risk quadrant. ABA Opinion 512 specifically addresses billing implications of AI use.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "You want to convince a skeptical senior partner to allow AI tools in your practice group. Which framing is most likely to be effective?",
+        "type": "Scenario",
+        "difficulty": "Application",
+        "explanation": "Framing AI adoption around competence and risk management resonates with senior partners because it connects to existing professional obligations and firm interests. Emphasizing that the duty of technological competence under Rule 1.1 applies to AI, and that structured adoption reduces risk compared to ad hoc or no use, is more persuasive than convenience or cost arguments alone.",
+        "legal_citation": "ABA Model Rule 1.1, Comment 8",
+        "sort_order": 2,
+        "options": [
+          {
+            "text": "AI will replace junior associates and significantly reduce staffing costs.",
+            "is_correct": false,
+            "explanation": "This framing creates anxiety about job displacement and does not address the senior partner's likely concerns about quality, risk, and professional responsibility. It is also an inaccurate characterization of AI's current capabilities.",
+            "sort_order": 1
+          },
+          {
+            "text": "Other firms are already using AI and the firm will fall behind competitors.",
+            "is_correct": false,
+            "explanation": "While competitive pressure is real, fear-based arguments can trigger resistance. A more effective approach connects AI adoption to the firm's existing values of competence and risk management.",
+            "sort_order": 2
+          },
+          {
+            "text": "Frame it as a competence and risk management issue: the duty of technological competence requires understanding AI, and a structured adoption policy is safer than ad hoc use or avoidance.",
+            "is_correct": true,
+            "explanation": "Correct. This framing works because it connects to obligations partners already recognize (Rule 1.1 competence), addresses their primary concern (risk), and positions structured adoption as the responsible path. It frames AI as competence, not convenience.",
+            "sort_order": 3
+          },
+          {
+            "text": "Emphasize that AI tools are easy to use and require minimal training to implement.",
+            "is_correct": false,
+            "explanation": "Downplaying the learning curve can backfire by making AI seem trivial or by setting unrealistic expectations. Senior partners need to hear about responsible implementation, not that it's easy.",
+            "sort_order": 4
+          }
+        ]
+      },
+      {
+        "question_text": "What are the five steps in the recommended AI output verification workflow?",
+        "type": "Multiple Choice",
+        "difficulty": "Recall",
+        "explanation": "The five-step verification workflow provides a systematic approach to ensuring AI-assisted work meets professional standards: generate the output, review it critically, verify all citations independently, apply your professional judgment, and take full responsibility for the final product. This workflow ensures AI enhances rather than replaces lawyer judgment.",
+        "legal_citation": "",
+        "sort_order": 3,
+        "options": [
+          {
+            "text": "Generate, Review, Verify Citations, Apply Judgment, Take Responsibility.",
+            "is_correct": true,
+            "explanation": "Correct. Each step serves a critical function: generating gets the first draft, reviewing catches obvious issues, verifying citations prevents the Mata v. Avianca problem, applying judgment adds what only a lawyer can provide, and taking responsibility acknowledges that the lawyer -- not the AI -- is accountable for the work product.",
+            "sort_order": 1
+          },
+          {
+            "text": "Draft, Edit, Proofread, Format, Submit.",
+            "is_correct": false,
+            "explanation": "This describes a generic document preparation process, not a verification workflow specific to AI-generated content. It critically omits citation verification and the explicit step of applying professional judgment.",
+            "sort_order": 2
+          },
+          {
+            "text": "Prompt, Regenerate, Compare Versions, Select Best, Finalize.",
+            "is_correct": false,
+            "explanation": "This describes an iteration process for improving AI outputs, not a verification workflow. Comparing AI-generated versions without independent verification does not catch fabricated content.",
+            "sort_order": 3
+          },
+          {
+            "text": "Research, Prompt, Generate, Review, Disclose AI Use.",
+            "is_correct": false,
+            "explanation": "While research and disclosure may be important, this sequence misses the critical steps of citation verification and applying professional judgment. The verification workflow is specifically designed to catch AI errors, not just improve output quality.",
+            "sort_order": 4
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const FINAL_ASSESSMENT = [
+  {
+    "question_text": "A junior associate excitedly shows you a research memo drafted with AI that includes eight case citations supporting a novel legal theory. The citations are properly formatted with parallel citations and pinpoint page references. As the supervising attorney, what should you do FIRST?",
+    "type": "Scenario",
+    "difficulty": "Judgment",
+    "explanation": "Under Rules 5.1 and 5.3, supervising attorneys must ensure that work product meets professional standards. Properly formatted citations are not evidence of accuracy -- AI is particularly good at generating plausible-looking but fabricated citations. The first step must be independent verification in an authoritative legal database. This integrates Module 1 (hallucination), Module 2 (supervision duties), and Module 5 (verification workflow).",
+    "legal_citation": "ABA Model Rules 5.1, 5.3; ABA Formal Opinion 512",
+    "sort_order": 1,
+    "options": [
+      {
+        "text": "Commend the associate's initiative and submit the memo as-is since the citations look thorough.",
+        "is_correct": false,
+        "explanation": "Well-formatted citations are the hallmark of AI hallucination -- they look perfect but may reference cases that don't exist. Submitting without verification could lead to sanctions like those in Mata v. Avianca and would violate your supervisory duties under Rules 5.1 and 5.3.",
+        "sort_order": 1
+      },
+      {
+        "text": "Independently verify every citation in Westlaw or Lexis before reviewing the substantive analysis.",
+        "is_correct": true,
+        "explanation": "Correct. Citation verification is the critical first step because everything else in the memo depends on whether the supporting authorities are real. This aligns with the verification workflow (Generate, Review, Verify Citations, Apply Judgment, Take Responsibility) and your supervisory obligations.",
+        "sort_order": 2
+      },
+      {
+        "text": "Ask the associate to re-run the prompt three more times and check if the same citations appear consistently.",
+        "is_correct": false,
+        "explanation": "Consistency across AI outputs does not equal accuracy. An AI may hallucinate the same fabricated citation repeatedly because the statistical patterns that generated it remain the same. Only verification in an authoritative legal database confirms a citation is real.",
+        "sort_order": 3
+      },
+      {
+        "text": "Instruct the associate to never use AI for research again and redo the memo manually.",
+        "is_correct": false,
+        "explanation": "Banning AI use is an overreaction that misses the teaching moment. The issue isn't that the associate used AI -- it's that the output wasn't verified. The better response is to verify the citations and train the associate on proper verification workflows.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "True or False: Under ABA Formal Opinion 512, lawyers may use AI tools for any legal task as long as they review the final output before it leaves the office.",
+    "type": "True/False",
+    "difficulty": "Application",
+    "explanation": "False. ABA Opinion 512 identifies multiple obligations beyond output review: lawyers must understand how the AI tool works, supervise its use throughout the process, protect client data (not just review output), consider disclosure obligations, and address billing implications. Simply reviewing the final product is necessary but not sufficient.",
+    "legal_citation": "ABA Formal Opinion 512",
+    "sort_order": 2,
+    "options": [
+      {
+        "text": "True",
+        "is_correct": false,
+        "explanation": "ABA Opinion 512 requires much more than final output review. Lawyers must understand the AI tool, supervise its use, protect client data during input (not just at output), consider disclosure, and address billing. A lawyer who inputs confidential data into a consumer tool has already violated duties before any review occurs.",
+        "sort_order": 1
+      },
+      {
+        "text": "False",
+        "is_correct": true,
+        "explanation": "Correct. Opinion 512 establishes five key obligations: understand the AI tool, supervise its output, protect client data, consider disclosure, and address billing implications. Reviewing the final output addresses only one of these obligations. For example, entering confidential client data into a consumer AI tool violates Rule 1.6 regardless of how carefully you review the output.",
+        "sort_order": 2
+      }
+    ]
+  },
+  {
+    "question_text": "You are drafting a research memo on a complex securities regulation issue. You write the following prompt: \"What are the SEC rules on insider trading?\" The AI's response is generic and unhelpful. Using the IRAC-P framework, which revised prompt would produce the best result?",
+    "type": "Scenario",
+    "difficulty": "Application",
+    "explanation": "The IRAC-P framework (Issue, Role, Action, Context, Parameters) transforms vague prompts into specific, actionable instructions. The best prompt specifies the exact issue, assigns a relevant role, defines the action, provides context, and sets clear parameters for format and scope. This integrates Module 4 (prompting) with Module 3 (research use case).",
+    "legal_citation": "",
+    "sort_order": 3,
+    "options": [
+      {
+        "text": "\"Tell me everything about SEC insider trading rules, including all relevant cases and statutes. Make it very detailed and comprehensive.\"",
+        "is_correct": false,
+        "explanation": "This prompt is still too broad. Asking for 'everything' without specifying a particular issue, context, or format will produce an unfocused information dump. More detail is not the same as better structure.",
+        "sort_order": 1
+      },
+      {
+        "text": "\"You are a securities law attorney. Analyze whether pre-arranged 10b5-1 trading plans provide an affirmative defense when an executive possesses material nonpublic information at the time of plan adoption. Focus on recent SEC amendments effective February 2023. Format as a 750-word research memo with key authorities cited.\"",
+        "is_correct": true,
+        "explanation": "Correct. This prompt uses all five IRAC-P elements: Issue (10b5-1 defense when possessing MNPI), Role (securities attorney), Action (analyze), Context (recent SEC amendments), and Parameters (750 words, memo format, key authorities). Each element narrows the AI's focus to produce targeted, useful output.",
+        "sort_order": 2
+      },
+      {
+        "text": "\"SEC insider trading 10b5-1 plans defense MNPI 2023 amendments memo format.\"",
+        "is_correct": false,
+        "explanation": "Keyword-style prompts treat AI like a search engine, which it is not. LLMs respond best to natural language instructions with clear context and structure. This prompt has the right concepts but lacks the structure that produces quality output.",
+        "sort_order": 3
+      },
+      {
+        "text": "\"Please provide a detailed legal analysis of insider trading regulations with citations to all relevant statutes, cases, and SEC guidance. Include counterarguments and policy considerations.\"",
+        "is_correct": false,
+        "explanation": "This is more structured than the original but still lacks specificity. It doesn't define the particular issue, assign a role, specify a jurisdiction or time frame, or set format parameters. It would produce a broad survey rather than a focused analysis.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "A client asks you to use AI to review a stack of 200 employment contracts to identify non-compete clauses that may be unenforceable under new state legislation. You plan to use an enterprise AI tool with appropriate data protections. Rank the following steps in the correct order of the verification workflow.",
+    "type": "Scenario",
+    "difficulty": "Application",
+    "explanation": "The five-step verification workflow must be followed systematically: first generate the AI analysis, then review the output critically, verify any specific legal citations or claims, apply your professional judgment about enforceability in context, and take full responsibility for the final advice to the client. This scenario integrates Module 3 (contract review use case), Module 5 (verification workflow), and Module 2 (confidentiality -- enterprise tool choice).",
+    "legal_citation": "ABA Formal Opinion 512",
+    "sort_order": 4,
+    "options": [
+      {
+        "text": "Apply judgment, Generate AI analysis, Verify citations, Review output, Take responsibility.",
+        "is_correct": false,
+        "explanation": "You cannot apply judgment before generating and reviewing the output. The workflow must begin with generation and proceed through review and verification before judgment can be meaningfully applied.",
+        "sort_order": 1
+      },
+      {
+        "text": "Generate AI analysis, Review output, Verify citations, Apply judgment, Take responsibility.",
+        "is_correct": true,
+        "explanation": "Correct. This is the proper sequence: Generate the analysis of the 200 contracts, Review the AI's flagged issues critically, Verify any cited statutes or case law independently, Apply your professional judgment about enforceability given each client's specific circumstances, and Take full responsibility for the advice you deliver.",
+        "sort_order": 2
+      },
+      {
+        "text": "Review output, Generate AI analysis, Take responsibility, Verify citations, Apply judgment.",
+        "is_correct": false,
+        "explanation": "You cannot review output before it is generated, and taking responsibility should come last -- after all verification and judgment steps are complete. The workflow is sequential for a reason.",
+        "sort_order": 3
+      },
+      {
+        "text": "Generate AI analysis, Verify citations, Take responsibility, Review output, Apply judgment.",
+        "is_correct": false,
+        "explanation": "Taking responsibility before reviewing and applying judgment short-circuits the quality control process. Review and judgment must precede the final step of taking responsibility for the work product.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "True or False: If an AI tool generates a legal document that contains an error, the AI vendor -- not the attorney -- bears primary professional responsibility for the mistake.",
+    "type": "True/False",
+    "difficulty": "Recall",
+    "explanation": "False. The attorney always bears professional responsibility for work product submitted under their name, regardless of what tools were used to create it. This principle is fundamental to AI ethics in legal practice and is reinforced by ABA Opinion 512, the Mata v. Avianca sanctions, and the basic structure of professional responsibility rules.",
+    "legal_citation": "ABA Formal Opinion 512; ABA Model Rules 1.1, 5.1, 5.3",
+    "sort_order": 5,
+    "options": [
+      {
+        "text": "True",
+        "is_correct": false,
+        "explanation": "The attorney -- not the AI vendor -- bears professional responsibility. Using a tool does not transfer professional obligations. Just as you cannot blame Westlaw for missing a case or blame a paralegal for an error in a filing you signed, you cannot shift responsibility to an AI vendor.",
+        "sort_order": 1
+      },
+      {
+        "text": "False",
+        "is_correct": true,
+        "explanation": "Correct. The attorney bears full professional responsibility for all work product, regardless of the tools used. ABA Opinion 512 makes this explicit: AI tools are practice aids that the lawyer must supervise, verify, and take responsibility for. The verification workflow's final step -- Take Responsibility -- reinforces this principle.",
+        "sort_order": 2
+      }
+    ]
+  },
+  {
+    "question_text": "A mid-size firm is developing its AI use policy. The managing partner proposes that all attorneys be prohibited from using AI tools until the state bar issues formal guidance. How should you evaluate this proposal?",
+    "type": "Scenario",
+    "difficulty": "Judgment",
+    "explanation": "A blanket prohibition is problematic for multiple reasons: it may itself violate the duty of technological competence under Rule 1.1 Comment 8, it doesn't prevent attorneys from using AI tools on personal devices without any guidance, and it ignores the genuine productivity benefits. A structured adoption policy with guardrails is safer than either prohibition or uncontrolled use. This integrates Module 2 (ethics), Module 5 (action planning), and Module 1 (understanding capabilities).",
+    "legal_citation": "ABA Model Rule 1.1, Comment 8; ABA Formal Opinion 512",
+    "sort_order": 6,
+    "options": [
+      {
+        "text": "The proposal is prudent -- waiting for formal guidance eliminates risk and protects the firm from liability.",
+        "is_correct": false,
+        "explanation": "Waiting does not eliminate risk. Attorneys may use AI on personal devices without any guardrails, and the firm misses opportunities to build competence. Additionally, the duty of technological competence under Rule 1.1 Comment 8 requires engaging with technology, not avoiding it.",
+        "sort_order": 1
+      },
+      {
+        "text": "The prohibition is counterproductive -- a structured adoption policy with enterprise tools, training, verification workflows, and clear guardrails is safer than a ban because it addresses the reality that attorneys will encounter AI regardless.",
+        "is_correct": true,
+        "explanation": "Correct. A structured policy acknowledges reality (attorneys will use AI regardless), fulfills the competence duty (building understanding), manages risk (enterprise tools, verification workflows), and captures productivity benefits. Prohibition creates a false sense of security while potentially violating Rule 1.1's competence mandate.",
+        "sort_order": 2
+      },
+      {
+        "text": "Individual attorneys should be free to decide whether and how to use AI tools based on their own comfort level.",
+        "is_correct": false,
+        "explanation": "Unstructured, individual adoption creates inconsistent practices and risk management gaps across the firm. A firm-wide policy ensures consistent data protection, verification standards, and ethical compliance.",
+        "sort_order": 3
+      },
+      {
+        "text": "The firm should immediately adopt AI for all practice areas to maintain competitive advantage.",
+        "is_correct": false,
+        "explanation": "Rushing adoption without structure is as risky as prohibiting it. Effective AI adoption requires training, appropriate tools, verification workflows, and clear policies -- not just tool access.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "You need to draft a client communication explaining a recent adverse ruling. You craft a detailed IRAC-P prompt and the AI produces a solid first draft. Applying the iteration technique, what should your next two prompts focus on?",
+    "type": "Scenario",
+    "difficulty": "Application",
+    "explanation": "The iteration technique uses three prompts: foundation (60%), refinement (80%), and polish (90%). After the first prompt produces the foundation, the second prompt should refine the substance (addressing weaknesses, adding nuance, improving accuracy), and the third should polish tone, formatting, and presentation. This integrates Module 4 (iteration technique) with Module 3 (client communication use case).",
+    "legal_citation": "",
+    "sort_order": 7,
+    "options": [
+      {
+        "text": "Second prompt: ask the AI to make the draft longer and more detailed. Third prompt: ask it to add more legal citations.",
+        "is_correct": false,
+        "explanation": "Adding length and citations is not the same as refining and polishing. The second prompt should address specific substantive weaknesses, and the third should focus on tone and presentation for the client audience.",
+        "sort_order": 1
+      },
+      {
+        "text": "Second prompt: refine the substantive analysis by addressing specific weaknesses and adding nuance about the ruling's implications. Third prompt: polish the tone and format for this specific client's communication preferences.",
+        "is_correct": true,
+        "explanation": "Correct. The refinement prompt (80%) targets substance -- improving accuracy, addressing gaps, and adding client-specific context about the ruling. The polish prompt (90%) adjusts tone, format, and presentation for the audience. Your final 10% adds the personal judgment only you can provide.",
+        "sort_order": 2
+      },
+      {
+        "text": "Second prompt: start over with a completely new prompt from scratch. Third prompt: combine the best parts of both drafts.",
+        "is_correct": false,
+        "explanation": "The iteration technique builds on each previous output, not starting fresh. Regenerating from scratch loses the context and progress from the first prompt. Each prompt should refine the existing draft.",
+        "sort_order": 3
+      },
+      {
+        "text": "Second prompt: ask the AI to verify its own citations. Third prompt: ask it to rate the quality of its own draft on a scale of 1-10.",
+        "is_correct": false,
+        "explanation": "AI cannot reliably verify its own citations -- it may confirm fabricated citations as real. Self-evaluation by AI is not a substitute for lawyer review. The iteration technique is about progressive refinement, not AI self-assessment.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "A partner asks you to use AI to summarize 50 deposition transcripts for a complex litigation matter. You plan to use a consumer AI chatbot because it has a generous free tier. What is the most critical issue with this plan?",
+    "type": "Scenario",
+    "difficulty": "Judgment",
+    "explanation": "Deposition transcripts contain highly confidential client and case information. Using a consumer AI tool -- which likely uses input data for model training -- would expose this confidential information in violation of Rule 1.6. The enterprise vs. consumer distinction is critical: enterprise tools with data protection agreements are required for any work involving client data. This integrates Module 2 (confidentiality), Module 3 (summarization use case), and Module 5 (low-risk quadrant analysis).",
+    "legal_citation": "ABA Model Rule 1.6; ABA Formal Opinion 512",
+    "sort_order": 8,
+    "options": [
+      {
+        "text": "Consumer AI tools produce lower quality summaries than enterprise tools, so the output will be unreliable.",
+        "is_correct": false,
+        "explanation": "While output quality matters, it is not the most critical issue here. The fundamental problem is confidentiality, not quality. Even if the consumer tool produced perfect summaries, using it with deposition transcripts would violate Rule 1.6.",
+        "sort_order": 1
+      },
+      {
+        "text": "Entering confidential deposition transcripts into a consumer AI tool likely violates Rule 1.6 because consumer tools may use input data for model training, exposing privileged and confidential case information.",
+        "is_correct": true,
+        "explanation": "Correct. This is a clear Rule 1.6 violation. Deposition transcripts contain confidential client information, attorney work product, and potentially privileged communications. Consumer AI tools typically lack the data protection agreements that enterprise tools provide. The confidentiality breach occurs at the input stage -- before any output is generated.",
+        "sort_order": 2
+      },
+      {
+        "text": "The free tier likely has a word limit that won't accommodate 50 full deposition transcripts.",
+        "is_correct": false,
+        "explanation": "While practical limitations exist, the capacity constraint is not the most critical issue. Even if the consumer tool could handle all 50 transcripts, the confidentiality violation would make it impermissible.",
+        "sort_order": 3
+      },
+      {
+        "text": "You need to disclose to opposing counsel that AI was used to review the depositions.",
+        "is_correct": false,
+        "explanation": "While disclosure obligations may arise in some contexts, the most critical issue is that confidential information should never enter a consumer AI tool in the first place. Disclosure does not cure a confidentiality breach.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "You have been using AI tools for three months and want to develop a personal AI policy. Which of the following best reflects the five-question framework for a personal AI policy?",
+    "type": "Multiple Choice",
+    "difficulty": "Recall",
+    "explanation": "The five-question personal AI policy framework from Module 5 helps lawyers create a structured, individualized approach to AI use that covers tool selection, data handling, verification practices, use case boundaries, and ongoing learning. It is designed to be practical and adaptable as AI technology evolves.",
+    "legal_citation": "",
+    "sort_order": 9,
+    "options": [
+      {
+        "text": "What tools will I use? What data can I input? How will I verify outputs? What tasks are appropriate? How will I stay current?",
+        "is_correct": true,
+        "explanation": "Correct. These five questions create a comprehensive personal policy: tool selection ensures you use enterprise-grade tools, data boundaries protect confidentiality, verification protocols prevent errors, task boundaries keep you in the low-risk quadrant initially, and staying current fulfills the ongoing competence duty.",
+        "sort_order": 1
+      },
+      {
+        "text": "How much time will I save? What is the ROI? How will I bill for AI-assisted work? What will partners think? When will I start?",
+        "is_correct": false,
+        "explanation": "These questions focus on business considerations rather than the ethical and practical framework for responsible AI use. While business factors matter, a personal AI policy must prioritize professional responsibility.",
+        "sort_order": 2
+      },
+      {
+        "text": "Which AI is best? What subscription should I buy? How do I prompt effectively? What training do I need? Who do I ask for help?",
+        "is_correct": false,
+        "explanation": "These are practical implementation questions, not policy questions. A personal AI policy addresses the boundaries and principles governing your use, not the logistics of getting started.",
+        "sort_order": 3
+      },
+      {
+        "text": "Is AI ethical? Does my bar allow it? What do my clients think? What does my malpractice insurer say? Should I wait?",
+        "is_correct": false,
+        "explanation": "These questions reflect uncertainty and hesitation rather than a structured policy framework. A personal AI policy assumes you will use AI and establishes how you will do so responsibly.",
+        "sort_order": 4
+      }
+    ]
+  },
+  {
+    "question_text": "A federal judge in your district has issued a standing order requiring disclosure of AI use in all filings. You used AI to brainstorm research angles and organize your argument outline, but every sentence in the final brief was written by you and every citation was independently researched. Must you disclose your AI use?",
+    "type": "Scenario",
+    "difficulty": "Judgment",
+    "explanation": "This question tests the tension between the letter of court disclosure orders and the reality of AI-assisted workflows. Most federal court AI disclosure orders are broadly worded and require disclosure of AI use in the preparation of filings. Even if AI was used only for brainstorming and organizing rather than drafting, a broadly worded standing order likely requires disclosure. Erring on the side of transparency is the safest course. This integrates Module 2 (disclosure orders) with Module 5 (responsible use) and Module 3 (research use case).",
+    "legal_citation": "ABA Formal Opinion 512; various federal court standing orders on AI disclosure",
+    "sort_order": 10,
+    "options": [
+      {
+        "text": "No -- since every word and citation is your own original work, AI-assisted brainstorming does not trigger the disclosure requirement.",
+        "is_correct": false,
+        "explanation": "This interpretation is too narrow and risky. Most AI disclosure orders are broadly worded to cover any use of AI in the preparation of filings, including research and organization. Failing to disclose when required could result in sanctions and undermine your credibility with the court.",
+        "sort_order": 1
+      },
+      {
+        "text": "Yes -- the standing order likely covers any AI use in preparing the filing, and erring on the side of transparency is the safest approach, even when AI's role was limited to brainstorming and organization.",
+        "is_correct": true,
+        "explanation": "Correct. Federal court AI disclosure orders are typically broadly worded and cover AI use in the 'preparation' of filings, not just drafting. Disclosing limited, responsible AI use actually demonstrates competence and good faith. The professional risk of non-disclosure far outweighs any perceived stigma of disclosure.",
+        "sort_order": 2
+      },
+      {
+        "text": "Only if opposing counsel specifically asks whether AI was used in the preparation of the brief.",
+        "is_correct": false,
+        "explanation": "A standing order is a court requirement, not a discovery obligation. You must comply with the standing order regardless of whether opposing counsel raises the issue. Waiting to be asked is not compliance.",
+        "sort_order": 3
+      },
+      {
+        "text": "You should avoid using AI entirely for any matter before a judge with such a standing order to avoid the disclosure requirement.",
+        "is_correct": false,
+        "explanation": "Avoiding AI to avoid disclosure defeats the purpose of both the technology and the standing order. The disclosure requirement exists to ensure transparency, not to discourage AI use. Responsible, disclosed AI use is exactly what these orders are designed to facilitate.",
+        "sort_order": 4
+      }
+    ]
+  }
+];
+
+
+// ── App State ──────────────────────────────────────────
+const STATE_KEY = 'tvpi_ai_course_progress';
+let state = {
+  name: '', email: '', firm: '',
+  role: '', firmSize: '', aiAdoption: '', aiTools: [],
+  surveyDone: false,
+  modulesComplete: [],
+  currentModule: 1,
+  quizAnswers: {},      // { "m1q1": 2, "m1q2": 0, ... }
+  surveyQ5: [],
+  surveyQ6: [],
+  surveyQ7: '',
+  leadRecordId: null,
+  surveyRecordId: null,
+  assessmentAnswers: {},
+  assessmentScore: null,
+  assessmentPassed: false,
+  screen: 'welcome'     // welcome | survey | course | assessment | complete
+};
+
+function saveState() {
+  try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem(STATE_KEY);
+    if (s) { Object.assign(state, JSON.parse(s)); return true; }
+  } catch(e) {}
+  return false;
+}
+
+// ── Airtable API ───────────────────────────────────────
+function isAirtableConfigured() {
+  return AIRTABLE_PAT && AIRTABLE_PAT !== 'YOUR_AIRTABLE_PAT_HERE';
+}
+
+async function airtableCreate(tableId, fields) {
+  if (!isAirtableConfigured()) return null;
+  try {
+    const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${tableId}`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields })
+    });
+    if (!res.ok) { console.warn('Airtable create failed:', await res.text()); return null; }
+    return await res.json();
+  } catch(e) { console.warn('Airtable error:', e); return null; }
+}
+
+async function airtableUpdate(tableId, recordId, fields) {
+  if (!isAirtableConfigured() || !recordId) return null;
+  try {
+    const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${tableId}/${recordId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields })
+    });
+    if (!res.ok) { console.warn('Airtable update failed:', await res.text()); return null; }
+    return await res.json();
+  } catch(e) { console.warn('Airtable error:', e); return null; }
+}
+
+function showToast(msg, duration) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), duration || 3000);
+}
+
+// ── Markdown Renderer ──────────────────────────────────
+function renderMarkdown(md) {
+  const lines = md.split('\n');
+  let html = '';
+  let inUl = false, inOl = false, inBlockquote = false;
+
+  function closeLists() {
+    if (inUl) { html += '</ul>'; inUl = false; }
+    if (inOl) { html += '</ol>'; inOl = false; }
+    if (inBlockquote) { html += '</blockquote>'; inBlockquote = false; }
+  }
+
+  function inlineFormat(text) {
+    // Bold
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Italic
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    // Inline code
+    text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+    return text;
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    // Blank line
+    if (!trimmed) { closeLists(); continue; }
+
+    // H1
+    if (/^# /.test(trimmed)) {
+      closeLists();
+      html += '<h1>' + inlineFormat(trimmed.slice(2)) + '</h1>';
+      continue;
+    }
+    // H2
+    if (/^## /.test(trimmed)) {
+      closeLists();
+      html += '<h2>' + inlineFormat(trimmed.slice(3)) + '</h2>';
+      continue;
+    }
+    // H3
+    if (/^### /.test(trimmed)) {
+      closeLists();
+      html += '<h3>' + inlineFormat(trimmed.slice(4)) + '</h3>';
+      continue;
+    }
+
+    // Blockquote
+    if (/^> /.test(trimmed) || trimmed === '>') {
+      if (!inBlockquote) { closeLists(); html += '<blockquote>'; inBlockquote = true; }
+      const bqLine = trimmed.replace(/^>\s?/, '');
+      html += (bqLine ? inlineFormat(bqLine) : '') + '<br>';
+      continue;
+    } else if (inBlockquote) {
+      html += '</blockquote>'; inBlockquote = false;
+    }
+
+    // Unordered list
+    if (/^[-*] /.test(trimmed)) {
+      if (inOl) { html += '</ol>'; inOl = false; }
+      if (!inUl) { html += '<ul>'; inUl = true; }
+      html += '<li>' + inlineFormat(trimmed.slice(2)) + '</li>';
+      continue;
+    }
+    // Ordered list
+    if (/^\d+\.\s/.test(trimmed)) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      if (!inOl) { html += '<ol>'; inOl = true; }
+      html += '<li>' + inlineFormat(trimmed.replace(/^\d+\.\s/, '')) + '</li>';
+      continue;
+    }
+
+    // Paragraph
+    closeLists();
+    html += '<p>' + inlineFormat(trimmed) + '</p>';
+  }
+  closeLists();
+  return html;
+}
+
+// ── Render: Welcome Screen ─────────────────────────────
+function renderWelcome() {
+  document.getElementById('screenWelcome').innerHTML = `
+    <div class="card">
+      <h1>AI for Lawyers</h1>
+      <p class="subtitle">What You Need to Know Now &mdash; a free 30-minute course from <strong>TVPi Institute</strong></p>
+      <div class="form-group">
+        <label for="wName">Full Name</label>
+        <input type="text" id="wName" placeholder="Jane Smith" value="${state.name}">
+      </div>
+      <div class="form-group">
+        <label for="wEmail">Email *</label>
+        <input type="email" id="wEmail" placeholder="jane@firm.com" value="${state.email}" required>
+      </div>
+      <div class="form-group">
+        <label for="wFirm">Firm Name</label>
+        <input type="text" id="wFirm" placeholder="Smith & Associates LLP" value="${state.firm}">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="submitWelcome()" id="btnWelcome">Start Course &rarr;</button>
+      <p class="hint" style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--text-light)">Free. No credit card required.</p>
+    </div>
+  `;
+}
+
+function submitWelcome() {
+  const name = document.getElementById('wName').value.trim();
+  const email = document.getElementById('wEmail').value.trim();
+  const firm = document.getElementById('wFirm').value.trim();
+  if (!email) { document.getElementById('wEmail').style.borderColor='var(--red)'; return; }
+  state.name = name; state.email = email; state.firm = firm;
+  state.screen = 'survey';
+  saveState();
+  showScreen('survey');
+}
+
+// ── Render: Pre-Course Survey ──────────────────────────
+function renderSurvey() {
+  document.getElementById('screenSurvey').innerHTML = `
+    <div class="card" style="max-width:580px">
+      <h1>Quick Survey</h1>
+      <p class="subtitle">Takes 30 seconds. Your answers help us understand how lawyers are using AI.</p>
+
+      <div class="survey-q">
+        <label class="q-label">What best describes your role?</label>
+        <select id="sRole" class="form-group" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:.92rem;font-family:inherit">
+          <option value="">Select...</option>
+          <option>Partner</option><option>Associate</option><option>Of Counsel</option>
+          <option>General Counsel / In-House</option><option>Legal Ops / Innovation</option><option>Other</option>
+        </select>
+      </div>
+
+      <div class="survey-q">
+        <label class="q-label">What is your firm size?</label>
+        <div class="radio-group" id="sFirmSize">
+          ${buildRadio('firmSize', ['Less than 100 lawyers', '100–250', '250–500', '500–1,000', '1,000+'])}
+        </div>
+      </div>
+
+      <div class="survey-q">
+        <label class="q-label">How would you describe your current AI adoption level?</label>
+        <div class="radio-group" id="sAdoption">
+          ${buildRadio('adoption', ['Not using AI yet', 'Exploring / evaluating tools', 'Actively implementing', 'Mature & integrated into workflows'])}
+        </div>
+      </div>
+
+      <div class="survey-q">
+        <label class="q-label">Which AI tools have you used? <span style="font-weight:400;color:var(--text-light)">(select all that apply)</span></label>
+        <div class="checkbox-group" id="sTools">
+          ${buildCheckbox('tools', ['ChatGPT','Claude','Microsoft Copilot','Harvey','CoCounsel','Lex Machina','Casetext','Gemini','None'])}
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-block" onclick="submitSurvey()" style="margin-top:24px">Continue to Course &rarr;</button>
+    </div>
+  `;
+}
+
+function buildRadio(name, options) {
+  return options.map((opt, i) => `
+    <label class="radio-opt" onclick="this.querySelector('input').checked=true;highlightRadio(this)">
+      <input type="radio" name="${name}" value="${opt}"> <span>${opt}</span>
+    </label>
+  `).join('');
+}
+
+function buildCheckbox(name, options) {
+  return options.map((opt, i) => `
+    <label class="checkbox-opt" onclick="toggleCheckbox(this)">
+      <input type="checkbox" name="${name}" value="${opt}"> <span>${opt}</span>
+    </label>
+  `).join('');
+}
+
+function highlightRadio(el) {
+  el.parentElement.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleCheckbox(el) {
+  const cb = el.querySelector('input');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+}
+
+// Map survey values to Airtable field values
+const FIRM_SIZE_MAP = {
+  'Less than 100 lawyers': '<100',
+  '100–250': '100–250',
+  '250–500': '250–500',
+  '500–1,000': '500–1000',
+  '1,000+': '1000+'
+};
+const ADOPTION_MAP = {
+  'Not using AI yet': 'Not using',
+  'Exploring / evaluating tools': 'Exploring',
+  'Actively implementing': 'Actively Implementing',
+  'Mature & integrated into workflows': 'Mature & Integrated'
+};
+
+async function submitSurvey() {
+  const role = document.getElementById('sRole').value;
+  const firmSizeEl = document.querySelector('input[name="firmSize"]:checked');
+  const adoptionEl = document.querySelector('input[name="adoption"]:checked');
+  const toolEls = document.querySelectorAll('input[name="tools"]:checked');
+
+  state.role = role;
+  state.firmSize = firmSizeEl ? firmSizeEl.value : '';
+  state.aiAdoption = adoptionEl ? adoptionEl.value : '';
+  state.aiTools = Array.from(toolEls).map(e => e.value);
+  state.surveyDone = true;
+  state.screen = 'course';
+  saveState();
+
+  // Write to Airtable (non-blocking)
+  writeLeadAndSurvey();
+  showScreen('course');
+}
+
+async function writeLeadAndSurvey() {
+  // 1. Create Lead
+  const leadFields = {
+    'Full Name': state.name,
+    'Email': state.email,
+    'Company Input': state.firm,
+    'Role': state.role,
+    'Source': 'AI Survey',
+    'Lead Type': ['Member'],
+    'Outreach Status': 'Pending'
+  };
+  const leadRes = await airtableCreate(TABLES.leads, leadFields);
+  if (leadRes && leadRes.id) {
+    state.leadRecordId = leadRes.id;
+  }
+
+  // 2. Create Raw Survey Data record
+  const airtableFirmSize = FIRM_SIZE_MAP[state.firmSize] || state.firmSize;
+  const airtableAdoption = ADOPTION_MAP[state.aiAdoption] || state.aiAdoption;
+  const toolsFiltered = state.aiTools.filter(t => t !== 'None');
+
+  const surveyFields = {
+    'Firm Name': state.firm,
+    'Email': state.email,
+    'Role': state.role
+  };
+  if (airtableFirmSize) surveyFields['Firm Size (lawyer count range)'] = airtableFirmSize;
+  if (airtableAdoption) surveyFields['How would you describe your firm\'s current AI adoption maturity?'] = airtableAdoption;
+  if (toolsFiltered.length > 0) surveyFields['Which tools are used for each stage?'] = toolsFiltered;
+  if (state.leadRecordId) surveyFields['Lead'] = [state.leadRecordId];
+
+  const surveyRes = await airtableCreate(TABLES.survey, surveyFields);
+  if (surveyRes && surveyRes.id) {
+    state.surveyRecordId = surveyRes.id;
+    saveState();
+    showToast('Progress saved ✓');
+  }
+}
+
+// ── Render: Sidebar Module List ────────────────────────
+function renderSidebar() {
+  const list = document.getElementById('moduleList');
+  list.innerHTML = MODULES.map((m, i) => {
+    const num = i + 1;
+    const isActive = num === state.currentModule;
+    const isDone = state.modulesComplete.includes(num);
+    let cls = 'module-item';
+    if (isActive) cls += ' active';
+    if (isDone) cls += ' completed';
+    return `<div class="${cls}" onclick="navigateModule(${num})" data-mod="${num}">
+      <div class="mod-num">${isDone ? '✓' : num}</div>
+      <div class="mod-title">${m.title}</div>
+    </div>`;
+  }).join('') + `
+    <div class="module-item ${state.screen === 'assessment' ? 'active' : ''} ${state.assessmentPassed ? 'completed' : ''}"
+         onclick="navigateAssessment()" data-mod="assessment"
+         style="margin-top:8px;border-top:1px solid var(--border);padding-top:16px">
+      <div class="mod-num" style="background:${state.assessmentPassed ? 'var(--green)' : state.modulesComplete.length === 5 ? 'var(--gold)' : 'var(--border)'};color:${state.modulesComplete.length === 5 || state.assessmentPassed ? '#fff' : 'var(--text-light)'}">★</div>
+      <div class="mod-title" style="font-weight:${state.screen === 'assessment' ? '600' : '400'}">Final Assessment</div>
+    </div>
+  `;
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = (state.modulesComplete.length / 5) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${state.modulesComplete.length} of 5 modules complete`;
+}
+
+// ── Render: Module Content ─────────────────────────────
+function renderModule(num) {
+  state.currentModule = num;
+  state.screen = 'course';
+  saveState();
+
+  const mod = MODULES[num - 1];
+  const quiz = MODULE_QUIZZES.find(q => q.module_number === num);
+
+  let html = renderMarkdown(mod.content);
+
+  // Quiz section
+  if (quiz && quiz.questions.length > 0) {
+    html += '<div class="quiz-section"><h2>Knowledge Check</h2>';
+    quiz.questions.forEach((q, qi) => {
+      const qKey = `m${num}q${qi}`;
+      const answered = state.quizAnswers[qKey] !== undefined;
+      html += renderQuizQuestion(q, qKey, qi, answered);
+    });
+    html += '</div>';
+  }
+
+  // Survey Q5 after Module 3
+  if (num === 3) {
+    html += renderSurveyQ5();
+  }
+
+  // Survey Q6+Q7 after Module 5
+  if (num === 5) {
+    html += renderSurveyQ6Q7();
+  }
+
+  // Module complete message
+  if (state.modulesComplete.includes(num)) {
+    html += '<div class="module-complete-msg">✓ Module Complete</div>';
+  }
+
+  document.getElementById('courseContent').innerHTML = html;
+  renderSidebar();
+  document.getElementById('main').scrollTo(0, 0);
+}
+
+function renderQuizQuestion(q, qKey, idx, answered) {
+  const selectedIdx = state.quizAnswers[qKey];
+  let h = `<div class="quiz-card" id="card_${qKey}">`;
+  h += `<div class="q-num">Question ${idx + 1} of 3</div>`;
+  h += `<div class="q-text">${q.question_text}</div>`;
+  h += `<div class="quiz-opts">`;
+
+  q.options.forEach((opt, oi) => {
+    let cls = 'quiz-opt';
+    if (answered) {
+      cls += ' disabled answered';
+      if (opt.is_correct) cls += ' correct';
+      else if (oi === selectedIdx) cls += ' incorrect';
+    } else if (oi === selectedIdx) {
+      cls += ' selected';
+    }
+
+    const marker = answered ? (opt.is_correct ? '✓' : (oi === selectedIdx ? '✗' : '')) : '';
+
+    h += `<div class="${cls}" onclick="selectQuizOpt('${qKey}', ${oi}, this)" data-idx="${oi}">
+      <div class="opt-marker">${marker}</div>
+      <div>
+        <div>${opt.text}</div>
+        <div class="opt-explain">${opt.explanation}</div>
+      </div>
+    </div>`;
+  });
+
+  h += '</div>';
+  if (!answered) {
+    h += `<button class="btn btn-primary btn-check" onclick="checkAnswer('${qKey}', ${q.options.findIndex(o => o.is_correct)})" id="btn_${qKey}">Check Answer</button>`;
+  }
+  h += '</div>';
+  return h;
+}
+
+function selectQuizOpt(qKey, idx, el) {
+  if (state.quizAnswers[qKey] !== undefined) return; // already answered
+  const card = document.getElementById('card_' + qKey);
+  card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  // Store tentative selection
+  state._tentative = state._tentative || {};
+  state._tentative[qKey] = idx;
+}
+
+function checkAnswer(qKey, correctIdx) {
+  const selected = (state._tentative && state._tentative[qKey] !== undefined) ? state._tentative[qKey] : -1;
+  if (selected === -1) return;
+
+  state.quizAnswers[qKey] = selected;
+  saveState();
+
+  // Re-render just this question card by re-rendering the module
+  renderModule(state.currentModule);
+  checkModuleCompletion(state.currentModule);
+
+  // Scroll to the card
+  setTimeout(() => {
+    const card = document.getElementById('card_' + qKey);
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+function checkModuleCompletion(num) {
+  const quiz = MODULE_QUIZZES.find(q => q.module_number === num);
+  if (!quiz) return;
+
+  const allAnswered = quiz.questions.every((q, qi) => state.quizAnswers[`m${num}q${qi}`] !== undefined);
+  if (allAnswered && !state.modulesComplete.includes(num)) {
+    // Check if survey questions for this module are done
+    if (num === 3 && state.surveyQ5.length === 0) return; // need survey Q5 first
+    if (num === 5 && !state.surveyQ7) return; // need survey Q6+Q7 first
+
+    state.modulesComplete.push(num);
+    state.modulesComplete.sort();
+    saveState();
+    renderSidebar();
+    renderModule(num); // re-render to show complete message
+  }
+}
+
+// ── Survey Q5 (after Module 3) ─────────────────────────
+function renderSurveyQ5() {
+  if (state.surveyQ5.length > 0 || !isModuleQuizDone(3)) return '';
+  const opts = ['Case Assessment','Discovery','Motion Practice','Depositions','Trial Prep','Appeals','Transactional Drafting','Due Diligence','Other'];
+  return `
+    <div class="survey-section" id="surveyQ5Section">
+      <h2>Quick Question</h2>
+      <p class="subtitle">Which of these AI use cases would be most valuable in your practice? (Select all that apply)</p>
+      <div class="checkbox-group">
+        ${opts.map(o => `<label class="checkbox-opt" onclick="toggleCheckbox(this)"><input type="checkbox" name="sq5" value="${o}"><span>${o}</span></label>`).join('')}
+      </div>
+      <button class="btn btn-primary" onclick="submitSurveyQ5()" style="margin-top:16px">Save &amp; Continue</button>
+    </div>
+  `;
+}
+
+async function submitSurveyQ5() {
+  const checked = Array.from(document.querySelectorAll('input[name="sq5"]:checked')).map(e => e.value);
+  if (checked.length === 0) return;
+  state.surveyQ5 = checked;
+  saveState();
+
+  // Update Airtable
+  if (state.surveyRecordId) {
+    await airtableUpdate(TABLES.survey, state.surveyRecordId, {
+      'Where is AI being used?': checked
+    });
+    showToast('Survey response saved ✓');
+  }
+
+  checkModuleCompletion(3);
+  renderModule(3);
+}
+
+// ── Survey Q6+Q7 (after Module 5) ─────────────────────
+function renderSurveyQ6Q7() {
+  if (state.surveyQ7 || !isModuleQuizDone(5)) return '';
+  const barriers = ['Cost','Governance risk','Lack of training','Cultural resistance','Data sensitivity','Client pushback'];
+  const likelihood = ['Already using daily','Very likely','Somewhat likely','Unlikely','Need more training first'];
+  return `
+    <div class="survey-section" id="surveyQ67Section">
+      <h2>Two Final Questions</h2>
+      <p class="subtitle">Before your final assessment:</p>
+      <div class="survey-q">
+        <label class="q-label">What are your biggest barriers to AI adoption? <span style="font-weight:400;color:var(--text-light)">(select all that apply)</span></label>
+        <div class="checkbox-group">
+          ${barriers.map(b => `<label class="checkbox-opt" onclick="toggleCheckbox(this)"><input type="checkbox" name="sq6" value="${b}"><span>${b}</span></label>`).join('')}
+        </div>
+      </div>
+      <div class="survey-q" style="margin-top:20px">
+        <label class="q-label">How likely are you to start using AI in the next 30 days?</label>
+        <div class="radio-group">
+          ${likelihood.map(l => `<label class="radio-opt" onclick="this.querySelector('input').checked=true;highlightRadio(this)"><input type="radio" name="sq7" value="${l}"><span>${l}</span></label>`).join('')}
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="submitSurveyQ67()" style="margin-top:20px">Continue to Final Assessment &rarr;</button>
+    </div>
+  `;
+}
+
+async function submitSurveyQ67() {
+  const barriers = Array.from(document.querySelectorAll('input[name="sq6"]:checked')).map(e => e.value);
+  const likelihoodEl = document.querySelector('input[name="sq7"]:checked');
+  if (!likelihoodEl) return;
+
+  state.surveyQ6 = barriers;
+  state.surveyQ7 = likelihoodEl.value;
+  saveState();
+
+  // Update Airtable
+  if (state.surveyRecordId) {
+    const fields = { '30-Day Adoption Likelihood': state.surveyQ7 };
+    if (barriers.length > 0) fields['Main barriers to adoption:'] = barriers;
+    await airtableUpdate(TABLES.survey, state.surveyRecordId, fields);
+    showToast('Survey response saved ✓');
+  }
+
+  checkModuleCompletion(5);
+  renderModule(5);
+}
+
+function isModuleQuizDone(num) {
+  const quiz = MODULE_QUIZZES.find(q => q.module_number === num);
+  if (!quiz) return true;
+  return quiz.questions.every((q, qi) => state.quizAnswers[`m${num}q${qi}`] !== undefined);
+}
+
+// ── Navigation ─────────────────────────────────────────
+function navigateModule(num) {
+  showScreen('course');
+  renderModule(num);
+  closeSidebarMobile();
+}
+
+function navigateAssessment() {
+  if (state.modulesComplete.length < 5) {
+    showToast('Complete all 5 modules first');
+    return;
+  }
+  showScreen('assessment');
+  renderAssessment();
+  closeSidebarMobile();
+}
+
+function showScreen(name) {
+  ['Welcome','Survey','Course','Assessment','Complete'].forEach(s => {
+    document.getElementById('screen' + s).style.display = 'none';
+  });
+  const show = name.charAt(0).toUpperCase() + name.slice(1);
+  document.getElementById('screen' + show).style.display = '';
+  state.screen = name;
+  saveState();
+
+  // Show/hide sidebar
+  const sidebar = document.getElementById('sidebar');
+  const hamburger = document.getElementById('hamburger');
+  if (name === 'welcome' || name === 'survey') {
+    sidebar.style.display = 'none';
+    hamburger.style.display = 'none';
+    document.getElementById('main').style.marginLeft = '0';
+  } else {
+    sidebar.style.display = '';
+    hamburger.style.display = '';
+    if (window.innerWidth > 768) {
+      document.getElementById('main').style.marginLeft = 'var(--sidebar-w)';
+    }
+  }
+  renderSidebar();
+}
+
+// ── Final Assessment ───────────────────────────────────
+function renderAssessment() {
+  if (state.assessmentPassed) {
+    renderComplete();
+    showScreen('complete');
+    return;
+  }
+
+  let html = `<div class="assessment-header">
+    <h1>Final Assessment</h1>
+    <div class="badge">10 questions &middot; 80% to pass</div>
+  </div>`;
+
+  FINAL_ASSESSMENT.forEach((q, qi) => {
+    const qKey = `fa${qi}`;
+    const answered = state.assessmentScore !== null;
+    html += renderAssessmentQuestion(q, qKey, qi, answered);
+  });
+
+  if (state.assessmentScore !== null) {
+    const pct = Math.round((state.assessmentScore / FINAL_ASSESSMENT.length) * 100);
+    const pass = state.assessmentScore >= 8;
+    html += `<div class="score-card">
+      <div class="score-big ${pass ? 'pass' : 'fail'}">${state.assessmentScore}/${FINAL_ASSESSMENT.length}</div>
+      <div class="score-label">${pct}% — ${pass ? 'Passed!' : 'Not yet. You need 80% to pass.'}</div>
+    </div>`;
+    if (pass) {
+      html += renderCTA();
+    } else {
+      html += `<div style="text-align:center;margin:20px 0">
+        <button class="btn btn-primary" onclick="retakeAssessment()">Retake Assessment</button>
+      </div>`;
+    }
+  } else {
+    html += `<div style="text-align:center;margin:32px 0">
+      <button class="btn btn-gold btn-block" onclick="submitAssessment()" style="max-width:400px;margin:0 auto;font-size:1.05rem;padding:14px 32px">Submit Assessment</button>
+    </div>`;
+  }
+
+  document.getElementById('assessmentContent').innerHTML = html;
+  document.getElementById('main').scrollTo(0, 0);
+}
+
+function renderAssessmentQuestion(q, qKey, idx, showResults) {
+  const selected = state.assessmentAnswers[qKey];
+  let h = `<div class="quiz-card" id="card_${qKey}">`;
+  h += `<div class="q-num">Question ${idx + 1} of ${FINAL_ASSESSMENT.length}</div>`;
+  h += `<div class="q-text">${q.question_text}</div>`;
+  h += `<div class="quiz-opts">`;
+
+  q.options.forEach((opt, oi) => {
+    let cls = 'quiz-opt';
+    if (showResults) {
+      cls += ' disabled answered';
+      if (opt.is_correct) cls += ' correct';
+      else if (oi === selected) cls += ' incorrect';
+    } else {
+      if (oi === selected) cls += ' selected';
+    }
+
+    const marker = showResults ? (opt.is_correct ? '✓' : (oi === selected && !opt.is_correct ? '✗' : '')) : '';
+
+    h += `<div class="${cls}" onclick="selectAssessmentOpt('${qKey}', ${oi}, this)" data-idx="${oi}">
+      <div class="opt-marker">${marker}</div>
+      <div>
+        <div>${opt.text}</div>
+        <div class="opt-explain">${opt.explanation}</div>
+      </div>
+    </div>`;
+  });
+
+  h += '</div></div>';
+  return h;
+}
+
+function selectAssessmentOpt(qKey, idx, el) {
+  if (state.assessmentScore !== null) return;
+  const card = document.getElementById('card_' + qKey);
+  card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.assessmentAnswers[qKey] = idx;
+  saveState();
+}
+
+function submitAssessment() {
+  // Check all answered
+  const total = FINAL_ASSESSMENT.length;
+  const answeredCount = Object.keys(state.assessmentAnswers).length;
+  if (answeredCount < total) {
+    showToast(`Please answer all ${total} questions (${answeredCount}/${total} answered)`);
+    return;
+  }
+
+  // Score
+  let correct = 0;
+  FINAL_ASSESSMENT.forEach((q, qi) => {
+    const qKey = `fa${qi}`;
+    const selected = state.assessmentAnswers[qKey];
+    if (selected !== undefined && q.options[selected] && q.options[selected].is_correct) {
+      correct++;
+    }
+  });
+
+  state.assessmentScore = correct;
+  state.assessmentPassed = correct >= 8;
+  saveState();
+
+  if (state.assessmentPassed) {
+    renderComplete();
+    showScreen('complete');
+  } else {
+    renderAssessment();
+    document.getElementById('main').scrollTo(0, 0);
+  }
+  renderSidebar();
+}
+
+function retakeAssessment() {
+  state.assessmentAnswers = {};
+  state.assessmentScore = null;
+  state.assessmentPassed = false;
+  saveState();
+  renderAssessment();
+  document.getElementById('main').scrollTo(0, 0);
+}
+
+// ── CTA / Complete ─────────────────────────────────────
+function renderCTA() {
+  const shareText = encodeURIComponent("I just completed the AI for Lawyers minicourse from @TVPiInstitute. Highly recommend for any attorney getting started with AI. #legaltech #AIforLawyers");
+  const shareUrl = encodeURIComponent("https://tvp-institute.com");
+  return `
+    <div class="cta-section">
+      <h2>🎓 Congratulations!</h2>
+      <p>You've completed <strong>AI for Lawyers: What You Need to Know Now</strong> and scored ${state.assessmentScore}/${FINAL_ASSESSMENT.length} on the final assessment.</p>
+      <p>Ready to go deeper? Explore the TVPi Institute's full course catalog and the ALPP accreditation program.</p>
+      <a href="https://tvp-institute.com" target="_blank" class="btn btn-gold" style="text-decoration:none">Explore TVPi Courses &rarr;</a>
+      <div class="share-links" style="margin-top:24px">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener">🔗 Share on LinkedIn</a>
+        <a href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener">𝕏 Share on X</a>
+        <a href="mailto:?subject=AI for Lawyers - Free Course&body=I just completed this free AI course for lawyers from TVPi Institute. Worth 30 minutes: https://tvp-institute.com" target="_blank">✉️ Email</a>
+      </div>
+    </div>
+  `;
+}
+
+function renderComplete() {
+  document.getElementById('completeContent').innerHTML = `
+    <div style="text-align:center;padding-top:32px">
+      <div style="font-size:4rem;margin-bottom:16px">🎓</div>
+      <h1 style="color:var(--navy)">Course Complete</h1>
+      <p style="color:var(--text-light);font-size:1.1rem;margin:8px 0 32px">You scored <strong>${state.assessmentScore}/${FINAL_ASSESSMENT.length}</strong> on the final assessment.</p>
+    </div>
+    ${renderCTA()}
+    <div style="text-align:center;margin-top:32px">
+      <button class="btn" style="background:transparent;color:var(--text-light);border:1px solid var(--border)" onclick="navigateModule(1)">← Review Course Modules</button>
+    </div>
+  `;
+}
+
+// ── Mobile Sidebar ─────────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebarMobile() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+// ── Initialize ─────────────────────────────────────────
+function init() {
+  const restored = loadState();
+
+  renderWelcome();
+  renderSurvey();
+  renderSidebar();
+
+  if (restored && state.screen) {
+    if (state.assessmentPassed) {
+      renderComplete();
+      showScreen('complete');
+    } else if (state.screen === 'assessment' && state.modulesComplete.length === 5) {
+      showScreen('assessment');
+      renderAssessment();
+    } else if (state.surveyDone) {
+      showScreen('course');
+      renderModule(state.currentModule || 1);
+    } else if (state.email) {
+      showScreen('survey');
+    } else {
+      showScreen('welcome');
+    }
+  } else {
+    showScreen('welcome');
+  }
+}
+
+init();
+
+</script>
+</body>
+</html>
