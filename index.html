@@ -110,6 +110,13 @@ h1,h2,h3,h4{font-family:'Source Serif 4','Georgia',serif;font-weight:700;line-he
 .radio-opt:hover,.checkbox-opt:hover{border-color:var(--navy-light);background:rgba(26,54,93,.02)}
 .radio-opt.selected,.checkbox-opt.selected{border-color:var(--navy);background:rgba(26,54,93,.05)}
 .radio-opt input,.checkbox-opt input{accent-color:var(--navy)}
+.scale-row{display:flex;gap:8px;align-items:center}
+.scale-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--border);background:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;
+  color:var(--text-light);cursor:pointer;transition:all .15s}
+.scale-btn:hover{border-color:var(--navy-light);background:rgba(26,54,93,.03)}
+.scale-btn.selected{border-color:var(--navy);background:var(--navy);color:#fff}
+.scale-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-light);margin-top:6px}
 
 /* ── Landing Page (Welcome Redesign) ──── */
 #screenWelcome.screen-center{align-items:stretch;justify-content:flex-start;padding:0;min-height:auto}
@@ -1466,6 +1473,22 @@ function renderSurvey() {
         </div>
       </div>
 
+      <div class="survey-q">
+        <label class="q-label">How much formal training have you had on using AI for legal work?</label>
+        <div class="scale-row" id="sTraining">
+          ${buildScale('training', 5)}
+        </div>
+        <div class="scale-labels"><span>1 — None</span><span>5 — Extensive</span></div>
+      </div>
+
+      <div class="survey-q">
+        <label class="q-label">How satisfied are you with the AI tools you currently use?</label>
+        <div class="scale-row" id="sSatisfaction">
+          ${buildScale('satisfaction', 5)}
+        </div>
+        <div class="scale-labels"><span>1 — Not satisfied</span><span>5 — Extremely satisfied</span></div>
+      </div>
+
       <button class="btn btn-primary btn-block" onclick="submitSurvey()" style="margin-top:24px">Continue to Course &rarr;</button>
     </div>
   `;
@@ -1477,6 +1500,20 @@ function buildRadio(name, options) {
       <input type="radio" name="${name}" value="${opt}"> <span>${opt}</span>
     </label>
   `).join('');
+}
+
+function buildScale(name, max) {
+  let html = '';
+  for (let i = 1; i <= max; i++) {
+    html += `<div class="scale-btn" data-name="${name}" data-val="${i}" onclick="selectScale(this)">${i}</div>`;
+  }
+  return html;
+}
+function selectScale(el) {
+  const name = el.dataset.name;
+  const row = el.parentElement;
+  row.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
 function buildCheckbox(name, options) {
@@ -1519,10 +1556,15 @@ async function submitSurvey() {
   const adoptionEl = document.querySelector('input[name="adoption"]:checked');
   const toolEls = document.querySelectorAll('input[name="tools"]:checked');
 
+  const trainingEl = document.querySelector('#sTraining .scale-btn.selected');
+  const satisfactionEl = document.querySelector('#sSatisfaction .scale-btn.selected');
+
   state.role = role;
   state.firmSize = firmSizeEl ? firmSizeEl.value : '';
   state.aiAdoption = adoptionEl ? adoptionEl.value : '';
   state.aiTools = Array.from(toolEls).map(e => e.value);
+  state.aiTrainingLevel = trainingEl ? parseInt(trainingEl.dataset.val) : null;
+  state.aiToolSatisfaction = satisfactionEl ? parseInt(satisfactionEl.dataset.val) : null;
   state.surveyDone = true;
   state.screen = 'course';
   saveState();
@@ -1539,7 +1581,7 @@ async function writeLeadAndSurvey() {
     'Email': state.email,
     'Company Input': state.firm,
     'Role': state.role,
-    'Source': 'AI Survey',
+    'Source': 'Lawyer Mini Course 1',
     'Lead Type': ['Member'],
     'Outreach Status': 'Pending'
   };
@@ -1561,6 +1603,8 @@ async function writeLeadAndSurvey() {
   if (airtableFirmSize) surveyFields['Firm Size (lawyer count range)'] = airtableFirmSize;
   if (airtableAdoption) surveyFields['How would you describe your firm\'s current AI adoption maturity?'] = airtableAdoption;
   if (toolsFiltered.length > 0) surveyFields['Which tools are used for each stage?'] = toolsFiltered;
+  if (state.aiTrainingLevel) surveyFields['Formal AI Training Level (1-5)'] = state.aiTrainingLevel;
+  if (state.aiToolSatisfaction) surveyFields['AI Tool Satisfaction (1-5)'] = state.aiToolSatisfaction;
   if (state.leadRecordId) surveyFields['Lead'] = [state.leadRecordId];
 
   const surveyRes = await airtableCreate(TABLES.survey, surveyFields);
